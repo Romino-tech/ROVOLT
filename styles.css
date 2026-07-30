@@ -2,7 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 40px;
     line-height: 1.5;
-    background: radial-gradient(circle at top left, #1f2937 0%, #0f172a 40%, #020617 100%);
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(2, 6, 23, 0.7)), url("ChatGPT Image 30. 7. 2026, 15_11_45.png") center/contain no-repeat;
+    background-attachment: fixed;
     color: #e2e8f0;
 }
 
@@ -22,7 +23,7 @@ body {
 }
 
 h1 {
-    color: #7dd3fc;
+    color: #38bdf8;
     font-size: 48px;
     margin: 0 0 8px;
 }

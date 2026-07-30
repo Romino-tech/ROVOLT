@@ -1,3 +1,7 @@
-document.querySelector("button").addEventListener("click", () => {
-    alert("Ďakujeme za váš záujem.");
-});
+const contactButton = document.getElementById("contactButton");
+
+if (contactButton) {
+    contactButton.addEventListener("click", () => {
+        window.location.href = "kontakt.html";
+    });
+}

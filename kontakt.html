@@ -18,7 +18,9 @@
   <main class="content">
     <section class="section">
       <h2>Napíšte nám</h2>
-      <form action="mailto:info@rovolt.sk" method="post" enctype="text/plain" class="contact-form">
+      <form id="contactForm" class="contact-form" action="https://formsubmit.co/info@rovolt.sk" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="Nová správa z webu ROVOLT">
         <label for="name">Meno</label>
         <input type="text" id="name" name="Meno" placeholder="Vaše meno" required>
 
@@ -29,6 +31,7 @@
         <textarea id="message" name="Správa" placeholder="Vaša správa" rows="6" required></textarea>
 
         <button type="submit">Odoslať správu</button>
+        <div id="messageResult" class="message-result" style="display:none;"></div>
       </form>
     </section>
 
@@ -37,6 +40,7 @@
       <p>E-mail: <a href="mailto:info@rovolt.sk">info@rovolt.sk</a></p>
       <p>Tel.: +421 904 826 557</p>
       <p>Adresa: Spišská Nová Ves, Slovensko</p>
+      <p><a class="button-link" href="index.html">Späť na hlavnú stránku</a></p>
     </section>
   </main>
 </body>

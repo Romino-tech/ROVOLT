@@ -1,9 +1,15 @@
+html,
+body {
+    min-height: 100%;
+}
+
 body {
     font-family: Arial, sans-serif;
-    margin: 40px;
+    margin: 0;
+    padding: 40px;
     line-height: 1.5;
-    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(2, 6, 23, 0.7)), url("ChatGPT Image 30. 7. 2026, 15_11_45.png") center/contain no-repeat;
-    background-attachment: fixed;
+    background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(2, 6, 23, 0.8)), url("ChatGPT Image 30. 7. 2026, 15_11_45.png") center/cover no-repeat fixed;
+    background-color: #0f172a;
     color: #e2e8f0;
 }
 
@@ -55,17 +61,57 @@ h1 {
     border: 1px solid rgba(148, 163, 184, 0.24);
 }
 
-button {
+button,
+.button-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: #f97316;
     color: #fff;
     border: none;
     padding: 12px 20px;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-button:hover {
+button:hover,
+.button-link:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 20px rgba(249, 115, 22, 0.25);
+}
+
+.contact-form {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.contact-form label {
+    font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: #111827;
+    color: #e5e7eb;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #9ca3af;
+}
+
+.message-result {
+    margin-top: 12px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: rgba(34, 197, 94, 0.15);
+    color: #d1fae5;
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }

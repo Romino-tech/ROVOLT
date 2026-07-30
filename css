@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.5;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    max-width: 220px;
+    height: auto;
+    border-radius: 12px;
+}
+
+h1 {
+    color: #2563EB;
+    font-size: 48px;
+    margin: 0 0 8px;
+}
+
+button {
+    background: orange;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}

@@ -41,10 +41,13 @@ if (contactForm) {
             }
 
             messageResult.style.display = "block";
-            messageResult.textContent = "Správa bola úspešne odoslaná. Čoskoro vám odpovieme na info@rovolt.sk.";
+            messageResult.textContent = "Správa bola úspešne odoslaná. Čoskoro vám odpovieme na info@rovolt.sk. O chvíľu budete presmerovaný späť na hlavnú stránku.";
             messageResult.style.background = "rgba(34, 197, 94, 0.15)";
             messageResult.style.borderColor = "rgba(34, 197, 94, 0.3)";
             contactForm.reset();
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 3000);
         } catch (error) {
             messageResult.style.display = "block";
             messageResult.textContent = "Chyba pri odosielaní správy. Skúste prosím neskôr.";

@@ -6,11 +6,50 @@ body {
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 40px;
+    padding: 0;
     line-height: 1.5;
     background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(2, 6, 23, 0.8)), url("ChatGPT Image 30. 7. 2026, 15_11_45.png") center/cover no-repeat fixed;
     background-color: #0f172a;
     color: #e2e8f0;
+    padding: 40px;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.nav-menu li {
+    margin: 0;
+}
+
+.nav-link {
+    display: block;
+    padding: 16px 24px;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #38bdf8;
+    border-bottom: 3px solid #38bdf8;
 }
 
 .hero {

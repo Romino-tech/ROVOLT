@@ -13,7 +13,11 @@
 </head>
 <body>
   <nav class="navbar">
-    <ul class="nav-menu">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+      <span class="menu-toggle-label">Menu</span>
+      <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <ul class="nav-menu" id="site-menu">
       <li><a href="index.html" class="nav-link is-active">Úvod</a></li>
       <li><a href="sluzby.html" class="nav-link">Služby</a></li>
       <li><a href="../eshop.html" class="nav-link">Eshop</a></li>
@@ -63,5 +67,6 @@
       </div>
     </section>
   </main>
+  <script src="script.js"></script>
 </body>
 </html>

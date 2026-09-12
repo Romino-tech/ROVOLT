@@ -1,6 +1,13 @@
 html,
 body {
     min-height: 100%;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 :root {
@@ -48,6 +55,14 @@ body {
 }
 
 .menu-toggle {
+    display: none;
+}
+
+.menu-details {
+    display: contents;
+}
+
+.menu-toggle::-webkit-details-marker {
     display: none;
 }
 
@@ -369,6 +384,11 @@ h1 {
         font: inherit;
         font-weight: 700;
         cursor: pointer;
+        list-style: none;
+    }
+
+    .menu-details {
+        display: block;
     }
 
     .menu-toggle-icon {
@@ -408,6 +428,7 @@ h1 {
         transition: max-height 0.3s ease, padding 0.3s ease, gap 0.3s ease, opacity 0.2s ease, transform 0.3s ease;
     }
 
+    .menu-details[open] .nav-menu,
     .nav-menu.is-open {
         max-height: 500px;
         padding: 8px;
@@ -439,6 +460,18 @@ h1 {
     .contact-copy,
     .contact-details {
         flex-basis: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .hero-copy {
+        width: 100%;
+    }
+
+    .eyebrow,
+    .hero-actions,
+    .hero-meta {
+        max-width: 100%;
     }
 
     .hero-panel {

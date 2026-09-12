@@ -12,18 +12,16 @@ if (contactButton) {
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.querySelector(".nav-menu");
+const menuDetails = menuToggle ? menuToggle.closest(".menu-details") : null;
 
-if (menuToggle && navMenu) {
-    menuToggle.onclick = () => {
-        const isOpen = navMenu.classList.contains("is-open");
-        menuToggle.setAttribute("aria-expanded", String(!isOpen));
-        navMenu.classList.toggle("is-open", !isOpen);
-    };
+if (menuDetails && navMenu) {
+    menuDetails.addEventListener("toggle", () => {
+        menuToggle.setAttribute("aria-expanded", String(menuDetails.open));
+    });
 
     navMenu.addEventListener("click", (event) => {
         if (event.target.closest(".nav-link")) {
-            menuToggle.setAttribute("aria-expanded", "false");
-            navMenu.classList.remove("is-open");
+            menuDetails.removeAttribute("open");
         }
     });
 }

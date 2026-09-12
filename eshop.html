@@ -10,7 +10,7 @@
     <meta name="description"
           content="ROVOLT E-shop – stavebné a bytové rozvádzače, ističe, prúdové chrániče, prepäťové ochrany a elektroinštalačný materiál.">
 
-    <link rel="stylesheet" href="ROVOLT/styles.css">
+    <link rel="stylesheet" href="styles.css">
 
     <style>
         :root {
@@ -106,6 +106,9 @@
             gap: 10px;
             text-decoration: none;
             min-height: 52px;
+            padding: 8px 14px;
+            border-width: 4px;
+            border-radius: 14px;
             color: #fff;
         }
 
@@ -114,6 +117,7 @@
             max-height: 52px;
             width: auto;
             border-radius: 10px;
+            filter: contrast(1.35) saturate(1.08);
         }
 
         .shop-brand-mark {
@@ -126,7 +130,7 @@
         }
 
         .shop-brand-mark .brand-ro {
-            color: #9bb7d4;
+            color: #000000;
         }
 
         .shop-brand-mark .brand-volt {
@@ -382,6 +386,17 @@
             background: var(--orange);
         }
 
+        .add-button:disabled {
+            background: #94a3b8;
+            color: #e2e8f0;
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
+
+        .add-button:disabled:hover {
+            background: #94a3b8;
+        }
+
         /* CART */
 
         .cart-overlay {
@@ -418,10 +433,19 @@
         }
 
         .close-cart {
-            border: none;
-            background: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #0f172a;
             font-size: 28px;
+            line-height: 1;
             cursor: pointer;
+        }
+
+        .close-cart:hover {
+            background: #e2e8f0;
         }
 
         .cart-item {
@@ -688,20 +712,20 @@
 
 <nav class="navbar">
     <ul class="nav-menu">
-        <li><a href="ROVOLT/index.html" class="nav-link">Úvod</a></li>
-        <li><a href="ROVOLT/sluzby.html" class="nav-link">Služby</a></li>
-        <li><a href="ROVOLT/eshop.html" class="nav-link is-active">Eshop</a></li>
-        <li><a href="ROVOLT/realizacie.html" class="nav-link">Realizácie</a></li>
-        <li><a href="ROVOLT/o-nas.html" class="nav-link">O nás</a></li>
-        <li><a href="ROVOLT/kontakt.html" class="nav-link">Kontakt</a></li>
+        <li><a href="index.html" class="nav-link">Úvod</a></li>
+        <li><a href="sluzby.html" class="nav-link">Služby</a></li>
+        <li><a href="eshop.html" class="nav-link is-active">Eshop</a></li>
+        <li><a href="realizacie.html" class="nav-link">Realizácie</a></li>
+        <li><a href="o-nas.html" class="nav-link">O nás</a></li>
+        <li><a href="kontakt.html" class="nav-link">Kontakt</a></li>
     </ul>
 </nav>
 
 <header>
     <div class="header-inner">
 
-        <a href="ROVOLT/index.html" class="logo" aria-label="ROVOLT domov">
-            <img src="ROVOLT/ChatGPT%20Image%2030.%207.%202026,%2013_42_51.png" alt="ROVOLT logo">
+        <a href="index.html" class="logo" aria-label="ROVOLT domov">
+            <img src="ChatGPT%20Image%2030.%207.%202026,%2013_42_51.png" alt="ROVOLT logo">
             <span class="shop-brand-mark" aria-label="ROVOLT">
                 <span class="brand-ro">RO</span><span class="brand-volt">VOLT</span>
             </span>
@@ -875,7 +899,7 @@
 
 <!-- CART -->
 
-<div class="cart-overlay" id="cartOverlay">
+<div class="cart-overlay" id="cartOverlay" onclick="if (event.target === this) closeCart()">
 
     <div class="cart">
 
@@ -883,7 +907,7 @@
 
             <h2>Košík</h2>
 
-            <button class="close-cart" onclick="closeCart()">
+            <button type="button" class="close-cart" onclick="closeCart()" aria-label="Zavrieť košík" title="Zavrieť košík">
                 ×
             </button>
 
@@ -923,7 +947,7 @@
 
 </footer>
 
-<script src="ROVOLT/script.js"></script>
+<script src="script.js"></script>
 <script>
 
     /* =========================
@@ -1112,6 +1136,13 @@
     function addToCart(id) {
 
         const product = products.find(p => p.id === id);
+
+        if (!product || product.available !== true) {
+            if (product) {
+                showToast(`Nedostupné: ${product.name}`);
+            }
+            return;
+        }
 
         const existing = cart.find(item => item.id === id);
 
@@ -1322,9 +1353,10 @@
 
                             <button
                                 class="add-button"
-                                onclick="addToCart(${product.id})">
+                                onclick="addToCart(${product.id})"
+                                ${product.available === true ? "" : "disabled"}>
 
-                                🛒 Pridať do košíka
+                                ${product.available === true ? "🛒 Pridať do košíka" : "Nedostupné"}
 
                             </button>
 

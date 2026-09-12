@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ROVOLT E-shop | Elektroinštalačný materiál</title>
+
+    <meta name="description"
+          content="ROVOLT E-shop – stavebné a bytové rozvádzače, ističe, prúdové chrániče, prepäťové ochrany a elektroinštalačný materiál.">
+
+    <link rel="stylesheet" href="ROVOLT/styles.css">
+
+    <style>
+        :root {
+            --orange: #f28c00;
+            --dark: #111827;
+            --dark2: #1f2937;
+            --gray: #6b7280;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --green: #15803d;
+            --red: #b91c1c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(249, 115, 22, 0.12), transparent 22%),
+                radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.10), transparent 30%),
+                linear-gradient(rgba(15, 23, 42, 0.58), rgba(2, 6, 23, 0.72)),
+                url("ChatGPT Image 30. 7. 2026, 15_11_45.png") center/cover no-repeat fixed;
+            background-color: #0b1220;
+            color: #e2e8f0;
+        }
+
+        .shop,
+        .products,
+        .product,
+        .product-content,
+        .product h3,
+        .product-description,
+        .shop-top,
+        .search,
+        .categories,
+        .category,
+        .cart,
+        .cart-item-name,
+        .cart-item-price,
+        .quantity,
+        .cart-total,
+        .checkout,
+        .checkout h2,
+        label,
+        input,
+        textarea,
+        select,
+        .order-status {
+            color: #0f172a !important;
+        }
+
+        /* HEADER */
+
+        header {
+            background: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: auto;
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            gap: 20px;
+        }
+
+        .shop-nav-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            min-height: 52px;
+            color: #fff;
+        }
+
+        .logo img {
+            display: block;
+            max-height: 52px;
+            width: auto;
+            border-radius: 10px;
+        }
+
+        .shop-brand-mark {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1.9rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            line-height: 1;
+        }
+
+        .shop-brand-mark .brand-ro {
+            color: #9bb7d4;
+        }
+
+        .shop-brand-mark .brand-volt {
+            color: var(--orange);
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: var(--orange);
+        }
+
+        .cart-button {
+            border: none;
+            background: var(--orange);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .cart-button:hover {
+            opacity: .9;
+        }
+
+        /* HERO */
+
+        .hero {
+            background:
+                linear-gradient(rgba(17,24,39,.88), rgba(17,24,39,.88)),
+                radial-gradient(circle at center, #374151, #111827);
+            color: white;
+            padding: 65px 20px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: var(--orange);
+        }
+
+        .hero p {
+            max-width: 700px;
+            font-size: 19px;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        /* SHOP */
+
+        .shop {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .shop-top {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 240px;
+            padding: 14px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255,255,255,0.96);
+            color: #0f172a;
+        }
+
+        .categories {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .category {
+            padding: 11px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.96);
+            color: #0f172a;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .category:hover,
+        .category.active {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: white;
+        }
+
+        /* PRODUCTS */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product {
+            background: rgba(255,255,255,0.96);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+            display: flex;
+            flex-direction: column;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .product:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0,0,0,.12);
+        }
+
+        .product-image {
+            height: 190px;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .product-content {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            color: #0f172a;
+        }
+
+        .product-category {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--orange);
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .product h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
+        .product-description {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .stock {
+            color: var(--green);
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .product-bottom {
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 21px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .price small {
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: normal;
+        }
+
+        .add-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: var(--dark);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background: var(--orange);
+        }
+
+        /* CART */
+
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            display: none;
+            z-index: 2000;
+        }
+
+        .cart-overlay.open {
+            display: block;
+        }
+
+        .cart {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 430px;
+            max-width: 100%;
+            background: rgba(255,255,255,0.98);
+            color: #0f172a;
+            padding: 25px;
+            overflow-y: auto;
+            border-left: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .close-cart {
+            border: none;
+            background: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+            padding: 15px 0;
+        }
+
+        .cart-item-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            color: #0f172a;
+        }
+
+        .quantity button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #0f172a;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove {
+            border: none !important;
+            color: var(--red);
+            width: auto !important;
+            margin-left: auto;
+        }
+
+        .cart-total {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--dark);
+            display: flex;
+            justify-content: space-between;
+            font-size: 21px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .checkout-button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            background: var(--orange);
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* CHECKOUT */
+
+        .checkout {
+            display: none;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255,255,255,0.96);
+            border-radius: 12px;
+            color: #0f172a;
+        }
+
+        .checkout.open {
+            display: block;
+        }
+
+        .checkout h2 {
+            margin-bottom: 25px;
+            color: #0f172a;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        input,
+        textarea,
+        select {
+            padding: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 7px;
+            background: rgba(255,255,255,0.98);
+            color: #0f172a;
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-order {
+            margin-top: 20px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            background: var(--orange);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            border: none;
+            background: var(--dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 70px;
+            background: var(--dark);
+            color: white;
+            padding: 35px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        footer p {
+            color: #9ca3af;
+            margin-top: 8px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+            .products {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+            nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .cart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <ul class="nav-menu">
+        <li><a href="ROVOLT/index.html" class="nav-link">Úvod</a></li>
+        <li><a href="ROVOLT/sluzby.html" class="nav-link">Služby</a></li>
+        <li><a href="ROVOLT/eshop.html" class="nav-link is-active">Eshop</a></li>
+        <li><a href="ROVOLT/realizacie.html" class="nav-link">Realizácie</a></li>
+        <li><a href="ROVOLT/o-nas.html" class="nav-link">O nás</a></li>
+        <li><a href="ROVOLT/kontakt.html" class="nav-link">Kontakt</a></li>
+    </ul>
+</nav>
+
+<header>
+    <div class="header-inner">
+
+        <a href="ROVOLT/index.html" class="logo" aria-label="ROVOLT domov">
+            <img src="ROVOLT/ChatGPT%20Image%2030.%207.%202026,%2013_42_51.png" alt="ROVOLT logo">
+            <span class="shop-brand-mark" aria-label="ROVOLT">
+                <span class="brand-ro">RO</span><span class="brand-volt">VOLT</span>
+            </span>
+        </a>
+
+        <div class="shop-nav-actions">
+            <button class="cart-button" onclick="openCart()">
+                🛒 Košík (<span id="cartCount">0</span>)
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>ROVOLT <span>E-SHOP</span></h1>
+        <p>
+            Elektroinštalačný materiál pre domy, byty, firmy a stavebné projekty.
+            Rozvádzače, ističe, prúdové chrániče a ďalší elektroinštalačný materiál.
+        </p>
+    </div>
+</section>
+
+<main class="shop" id="shop">
+
+    <div class="shop-top">
+
+        <input
+            type="text"
+            id="search"
+            class="search"
+            placeholder="🔍 Hľadať produkt..."
+            oninput="filterProducts()"
+        >
+
+    </div>
+
+    <div class="categories">
+
+        <button class="category active"
+                onclick="setCategory('Všetky', this)">
+            Všetky
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Stavebné rozvádzače', this)">
+            🏗️ Stavebné rozvádzače
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Bytové rozvádzače', this)">
+            🔲 Bytové rozvádzače
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Ističe', this)">
+            ⚡ Ističe
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Prúdové chrániče', this)">
+            🛡️ Prúdové chrániče
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Ističochrániče', this)">
+            🔌 Ističochrániče
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Prepäťové ochrany', this)">
+            ⚡ Prepäťové ochrany
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Inštalačný materiál', this)">
+            🔧 Inštalačný materiál
+        </button>
+
+    </div>
+
+    <div class="products" id="products"></div>
+
+</main>
+
+<!-- CHECKOUT -->
+
+<section class="checkout" id="checkout">
+
+    <button class="back-button" onclick="backToShop()">
+        ← Späť do e-shopu
+    </button>
+
+    <h2>Objednávka</h2>
+
+    <div id="orderStatus" class="order-status"></div>
+
+    <form id="orderForm" action="https://formsubmit.co/info@rovolt.sk" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="Nová objednávka – ROVOLT E-shop">
+        <input type="hidden" id="orderSummary" name="Objednávka">
+        <input type="hidden" id="orderTotal" name="Celkom">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Meno a priezvisko *</label>
+                <input type="text" name="meno" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telefón *</label>
+                <input type="tel" name="telefon" required>
+            </div>
+
+            <div class="form-group">
+                <label>E-mail *</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Firma</label>
+                <input type="text" name="firma">
+            </div>
+
+            <div class="form-group">
+                <label>IČO</label>
+                <input type="text" name="ico">
+            </div>
+
+            <div class="form-group">
+                <label>Adresa</label>
+                <input type="text" name="adresa">
+            </div>
+
+            <div class="form-group full">
+                <label>Spôsob platby</label>
+
+                <select name="platba">
+                    <option value="Prevod na účet">
+                        Platba prevodom na účet
+                    </option>
+
+                    <option value="Dobierka">
+                        Dobierka
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group full">
+                <label>Poznámka k objednávke</label>
+                <textarea name="poznamka"></textarea>
+            </div>
+
+        </div>
+
+        <button type="submit" class="submit-order">
+            Odoslať objednávku
+        </button>
+
+    </form>
+
+</section>
+
+<!-- CART -->
+
+<div class="cart-overlay" id="cartOverlay">
+
+    <div class="cart">
+
+        <div class="cart-header">
+
+            <h2>Košík</h2>
+
+            <button class="close-cart" onclick="closeCart()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-total">
+            <span>Celkom</span>
+            <span id="cartTotal">0,00 €</span>
+        </div>
+
+        <button class="checkout-button"
+                onclick="goToCheckout()">
+            Pokračovať k objednávke
+        </button>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div>
+            <strong>ROVOLT elektroinštalácie</strong>
+            <p>Elektroinštalácie a elektroinštalačný materiál</p>
+        </div>
+
+        <div>
+            <strong>Kontakt</strong>
+            <p>info@rovolt.sk</p>
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="ROVOLT/script.js"></script>
+<script>
+
+    /* =========================
+       PRODUKTY
+       ========================= */
+
+    const products = [
+
+        {
+            id: 1,
+            name: "Stavebný rozvádzač 230/400 V",
+            category: "Stavebné rozvádzače",
+            price: 89.90,
+            description: "Prenosný stavebný rozvádzač pre použitie na stavbách.",
+            icon: "🏗️"
+        },
+
+        {
+            id: 2,
+            name: "Stavebný rozvádzač s chráničom",
+            category: "Stavebné rozvádzače",
+            price: 129.90,
+            description: "Stavebný rozvádzač vybavený ističmi a prúdovým chráničom.",
+            icon: "🏗️"
+        },
+
+        {
+            id: 3,
+            name: "Bytová rozvodnica 12M",
+            category: "Bytové rozvádzače",
+            price: 24.90,
+            description: "Modulová rozvodnica pre bytové elektroinštalácie.",
+            icon: "🔲"
+        },
+
+        {
+            id: 4,
+            name: "Bytová rozvodnica 24M",
+            category: "Bytové rozvádzače",
+            price: 34.90,
+            description: "Rozvodnica s kapacitou 24 modulov.",
+            icon: "🔲"
+        },
+
+        {
+            id: 5,
+            name: "Bytová rozvodnica 36M",
+            category: "Bytové rozvádzače",
+            price: 49.90,
+            description: "Priestranná rozvodnica pre väčšie elektroinštalácie.",
+            icon: "🔲"
+        },
+
+        {
+            id: 6,
+            name: "Istič 1P B16",
+            category: "Ističe",
+            price: 5.90,
+            description: "Jednopólový istič, charakteristika B, 16 A.",
+            icon: "⚡"
+        },
+
+        {
+            id: 7,
+            name: "Istič 1P B20",
+            category: "Ističe",
+            price: 5.90,
+            description: "Jednopólový istič, charakteristika B, 20 A.",
+            icon: "⚡"
+        },
+
+        {
+            id: 8,
+            name: "Istič 1P B25",
+            category: "Ističe",
+            price: 6.20,
+            description: "Jednopólový istič, charakteristika B, 25 A.",
+            icon: "⚡"
+        },
+
+        {
+            id: 9,
+            name: "Istič 3P B16",
+            category: "Ističe",
+            price: 16.90,
+            description: "Trojpólový istič, charakteristika B, 16 A.",
+            icon: "⚡"
+        },
+
+        {
+            id: 10,
+            name: "Prúdový chránič 2P 40A / 30mA",
+            category: "Prúdové chrániče",
+            price: 32.90,
+            description: "Prúdový chránič 2P, 40 A, citlivosť 30 mA.",
+            icon: "🛡️"
+        },
+
+        {
+            id: 11,
+            name: "Prúdový chránič 4P 40A / 30mA",
+            category: "Prúdové chrániče",
+            price: 49.90,
+            description: "Štvorpólový prúdový chránič pre trojfázové inštalácie.",
+            icon: "🛡️"
+        },
+
+        {
+            id: 12,
+            name: "Ističochránič 1P+N B16 / 30mA",
+            category: "Ističochrániče",
+            price: 29.90,
+            description: "Kombinovaný istič s prúdovou ochranou.",
+            icon: "🔌"
+        },
+
+        {
+            id: 13,
+            name: "Prepäťová ochrana T2",
+            category: "Prepäťové ochrany",
+            price: 39.90,
+            description: "Modulová prepäťová ochrana pre elektroinštalácie.",
+            icon: "⚡"
+        },
+
+        {
+            id: 14,
+            name: "WAGO svorka",
+            category: "Inštalačný materiál",
+            price: 0.45,
+            description: "Praktická bezskrutková spojovacia svorka.",
+            icon: "🔧"
+        },
+
+        {
+            id: 15,
+            name: "DIN lišta 1 m",
+            category: "Inštalačný materiál",
+            price: 3.90,
+            description: "Montážna DIN lišta pre modulárne prístroje.",
+            icon: "🔧"
+        },
+
+        {
+            id: 16,
+            name: "Prepojovacia lišta 1P",
+            category: "Inštalačný materiál",
+            price: 6.90,
+            description: "Prepojovacia lišta pre modulárne ističe.",
+            icon: "🔧"
+        }
+
+    ];
+
+
+    /* =========================
+       KOŠÍK
+       ========================= */
+
+    let cart = JSON.parse(localStorage.getItem("rovoltCart")) || [];
+
+    let currentCategory = "Všetky";
+
+
+    function saveCart() {
+
+        localStorage.setItem(
+            "rovoltCart",
+            JSON.stringify(cart)
+        );
+
+    }
+
+
+    function addToCart(id) {
+
+        const product = products.find(p => p.id === id);
+
+        const existing = cart.find(item => item.id === id);
+
+        if (existing) {
+
+            existing.quantity++;
+
+        } else {
+
+            cart.push({
+                id: id,
+                quantity: 1
+            });
+
+        }
+
+        saveCart();
+        updateCart();
+
+    }
+
+
+    function changeQuantity(id, change) {
+
+        const item = cart.find(item => item.id === id);
+
+        if (!item) return;
+
+        item.quantity += change;
+
+        if (item.quantity <= 0) {
+
+            cart = cart.filter(item => item.id !== id);
+
+        }
+
+        saveCart();
+        updateCart();
+
+    }
+
+
+    function updateCart() {
+
+        const cartItems = document.getElementById("cartItems");
+
+        cartItems.innerHTML = "";
+
+        let total = 0;
+        let count = 0;
+
+        cart.forEach(item => {
+
+            const product =
+                products.find(p => p.id === item.id);
+
+            if (!product) return;
+
+            const itemTotal =
+                product.price * item.quantity;
+
+            total += itemTotal;
+            count += item.quantity;
+
+            cartItems.innerHTML += `
+
+                <div class="cart-item">
+
+                    <div class="cart-item-top">
+
+                        <div class="cart-item-name">
+                            ${product.name}
+                        </div>
+
+                        <div class="cart-item-price">
+                            ${formatPrice(itemTotal)}
+                        </div>
+
+                    </div>
+
+                    <div class="quantity">
+
+                        <button onclick="changeQuantity(${item.id}, -1)">
+                            −
+                        </button>
+
+                        <span>${item.quantity} ks</span>
+
+                        <button onclick="changeQuantity(${item.id}, 1)">
+                            +
+                        </button>
+
+                        <button
+                            class="remove"
+                            onclick="changeQuantity(${item.id}, -${item.quantity})">
+                            Odstrániť
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+        if (cart.length === 0) {
+
+            cartItems.innerHTML =
+                "<p>Košík je zatiaľ prázdny.</p>";
+
+        }
+
+        document.getElementById("cartCount").textContent = count;
+
+        document.getElementById("cartTotal").textContent =
+            formatPrice(total);
+
+    }
+
+
+    function formatPrice(price) {
+
+        return price.toLocaleString("sk-SK", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + " €";
+
+    }
+
+
+    /* =========================
+       PRODUKTY
+       ========================= */
+
+    function renderProducts() {
+
+        const container =
+            document.getElementById("products");
+
+        const search =
+            document.getElementById("search")
+                .value
+                .toLowerCase();
+
+        container.innerHTML = "";
+
+        const filtered = products.filter(product => {
+
+            const categoryMatch =
+                currentCategory === "Všetky" ||
+                product.category === currentCategory;
+
+            const searchMatch =
+                product.name.toLowerCase().includes(search) ||
+                product.description.toLowerCase().includes(search);
+
+            return categoryMatch && searchMatch;
+
+        });
+
+
+        if (filtered.length === 0) {
+
+            container.innerHTML =
+                "<p>Žiadny produkt nezodpovedá vyhľadávaniu.</p>";
+
+            return;
+
+        }
+
+
+        filtered.forEach(product => {
+
+            container.innerHTML += `
+
+                <article class="product">
+
+                    <div class="product-image">
+                        ${product.icon}
+                    </div>
+
+                    <div class="product-content">
+
+                        <div class="product-category">
+                            ${product.category}
+                        </div>
+
+                        <h3>
+                            ${product.name}
+                        </h3>
+
+                        <p class="product-description">
+                            ${product.description}
+                        </p>
+
+                        <div class="stock">
+                            ● Dostupné
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <div class="price">
+                                ${formatPrice(product.price)}
+                                <small>s DPH</small>
+                            </div>
+
+                            <button
+                                class="add-button"
+                                onclick="addToCart(${product.id})">
+
+                                🛒 Pridať do košíka
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            `;
+
+        });
+
+    }
+
+
+    function setCategory(category, button) {
+
+        currentCategory = category;
+
+        document
+            .querySelectorAll(".category")
+            .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        renderProducts();
+
+    }
+
+
+    function filterProducts() {
+
+        renderProducts();
+
+    }
+
+
+    /* =========================
+       CART WINDOW
+       ========================= */
+
+    function openCart() {
+
+        updateCart();
+
+        document
+            .getElementById("cartOverlay")
+            .classList.add("open");
+
+    }
+
+
+    function closeCart() {
+
+        document
+            .getElementById("cartOverlay")
+            .classList.remove("open");
+
+    }
+
+
+    function goToCheckout() {
+
+        if (cart.length === 0) {
+
+            alert("Košík je prázdny.");
+
+            return;
+
+        }
+
+        closeCart();
+
+        document.getElementById("shop").style.display = "none";
+
+        document
+            .getElementById("checkout")
+            .classList.add("open");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    function backToShop() {
+
+        document.getElementById("shop").style.display = "block";
+
+        document
+            .getElementById("checkout")
+            .classList.remove("open");
+
+    }
+
+
+    /* =========================
+       OBJEDNÁVKA
+       ========================= */
+
+    document
+        .getElementById("orderForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const statusBox = document.getElementById("orderStatus");
+            statusBox.style.display = "block";
+            statusBox.style.background = "rgba(34, 197, 94, 0.12)";
+            statusBox.style.borderColor = "rgba(34, 197, 94, 0.35)";
+            statusBox.textContent = "Odosielame objednávku na info@rovolt.sk...";
+
+            let orderText = "";
+            let total = 0;
+
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                const itemTotal = product.price * item.quantity;
+                total += itemTotal;
+                orderText += `${product.name} – ${item.quantity} ks – ${formatPrice(itemTotal)}\n`;
+            });
+
+            document.getElementById("orderSummary").value = `Objednávka z ROVOLT E-shopu:\n\n${orderText}\nCelkom: ${formatPrice(total)}`;
+            document.getElementById("orderTotal").value = formatPrice(total);
+
+            setTimeout(() => {
+                statusBox.textContent = "Objednávka bola odoslaná. Odpovieme na vaš e-mail čo najskôr.";
+                statusBox.style.background = "rgba(59, 130, 246, 0.10)";
+                statusBox.style.borderColor = "rgba(59, 130, 246, 0.30)";
+                this.submit();
+            }, 350);
+
+        });
+
+
+    /* =========================
+       START
+       ========================= */
+
+    renderProducts();
+
+    updateCart();
+
+</script>
+
+</body>
+</html>
+```

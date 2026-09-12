@@ -134,6 +134,29 @@ body {
     padding: 8px;
 }
 
+.brand-lockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.brand-wordmark {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1;
+}
+
+.brand-ro {
+    color: #9bb7d4;
+}
+
+.brand-volt {
+    color: #f28c00;
+}
+
 .hero-panel-box {
     width: 100%;
     background: rgba(15, 23, 42, 0.9);

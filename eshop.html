@@ -2,7 +2,8 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
 
     <title>ROVOLT E-shop | Elektroinštalačný materiál</title>
 
@@ -29,6 +30,10 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background:
@@ -38,6 +43,8 @@
                 url("ChatGPT Image 30. 7. 2026, 15_11_45.png") center/cover no-repeat fixed;
             background-color: #0b1220;
             color: #e2e8f0;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
         }
 
         .shop,
@@ -194,6 +201,43 @@
             max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
+        }
+
+        .shop-closed-banner {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 18px 22px;
+            border: 1px solid rgba(248, 113, 113, 0.4);
+            background: rgba(127, 29, 29, 0.75);
+            color: #fee2e2;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(15, 23, 42, 0.96);
+            color: #fff;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 14px 18px;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 3000;
+            font-weight: 700;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
         .shop-top {
@@ -559,7 +603,7 @@
 
         @media (max-width: 1000px) {
             .products {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
 
@@ -568,12 +612,33 @@
                 display: none;
             }
 
+            .header-inner {
+                padding: 10px 16px;
+                min-height: 64px;
+            }
+
+            .logo img {
+                max-height: 40px;
+            }
+
+            .shop-brand-mark {
+                font-size: 1.4rem;
+            }
+
+            .hero {
+                padding: 36px 16px;
+            }
+
             .hero h1 {
                 font-size: 35px;
             }
 
+            .hero p {
+                font-size: 16px;
+            }
+
             .products {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .form-grid {
@@ -586,12 +651,34 @@
         }
 
         @media (max-width: 500px) {
+            .shop,
+            .shop-closed-banner,
+            .hero-inner,
+            .checkout {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
             .products {
                 grid-template-columns: 1fr;
             }
 
             .cart {
                 width: 100%;
+            }
+
+            .cart-button {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+
+            .shop-brand-mark {
+                font-size: 1.2rem;
+            }
+
+            .toast {
+                width: calc(100% - 24px);
+                text-align: center;
             }
         }
     </style>
@@ -628,6 +715,10 @@
 
     </div>
 </header>
+
+<section class="shop-closed-banner">
+    Momentálne je eshop zatvorený a všetky tovary sú momentálne nedostupné.
+</section>
 
 <section class="hero">
     <div class="hero-inner">
@@ -700,6 +791,8 @@
     <div class="products" id="products"></div>
 
 </main>
+
+<div id="toast" class="toast" aria-live="polite">Produkt bol pridaný do košíka</div>
 
 <!-- CHECKOUT -->
 
@@ -1005,6 +1098,17 @@
     }
 
 
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast.timeoutId);
+        showToast.timeoutId = setTimeout(() => {
+            toast.classList.remove("show");
+        }, 1800);
+    }
+
     function addToCart(id) {
 
         const product = products.find(p => p.id === id);
@@ -1026,6 +1130,7 @@
 
         saveCart();
         updateCart();
+        showToast(`Nedostupné: ${product.name}`);
 
     }
 
@@ -1205,7 +1310,7 @@
                         </p>
 
                         <div class="stock">
-                            ● Dostupné
+                            ● Nedostupné
                         </div>
 
                         <div class="product-bottom">
@@ -1370,4 +1475,3 @@
 
 </body>
 </html>
-```

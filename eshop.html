@@ -633,10 +633,12 @@
 
         @media (max-width: 750px) {
             .navbar .nav-menu {
-                display: flex;
+                display: none;
+                width: 100%;
+                max-width: 100%;
             }
 
-            .navbar .nav-menu.is-open {
+            .navbar .menu-details[open] .nav-menu {
                 display: flex;
             }
 

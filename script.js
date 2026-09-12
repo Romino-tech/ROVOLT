@@ -15,6 +15,20 @@ const navMenu = document.querySelector(".nav-menu");
 const menuDetails = menuToggle ? menuToggle.closest(".menu-details") : null;
 
 if (menuDetails && navMenu) {
+    const desktopMenuQuery = window.matchMedia("(min-width: 721px)");
+
+    const syncMenuWithViewport = (mediaQuery) => {
+        menuDetails.open = mediaQuery.matches;
+    };
+
+    syncMenuWithViewport(desktopMenuQuery);
+
+    if (desktopMenuQuery.addEventListener) {
+        desktopMenuQuery.addEventListener("change", syncMenuWithViewport);
+    } else {
+        desktopMenuQuery.addListener(syncMenuWithViewport);
+    }
+
     menuDetails.addEventListener("toggle", () => {
         menuToggle.setAttribute("aria-expanded", String(menuDetails.open));
     });

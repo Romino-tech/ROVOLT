@@ -97,6 +97,22 @@
         .shop-nav-actions {
             display: flex;
             align-items: center;
+            gap: 10px;
+        }
+
+        .account-button {
+            border: 1px solid rgba(255,255,255,.24);
+            background: transparent;
+            color: white;
+            padding: 11px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .account-button:hover {
+            background: rgba(255,255,255,.1);
         }
 
         .logo {
@@ -371,6 +387,25 @@
             font-weight: normal;
         }
 
+        .price-old {
+            margin-right: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: normal;
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            margin-bottom: 7px;
+            padding: 3px 7px;
+            border-radius: 5px;
+            background: #dc2626;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
         .add-button {
             width: 100%;
             padding: 12px;
@@ -516,6 +551,345 @@
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
+        }
+
+        /* ACCOUNT */
+
+        .account-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(2, 6, 23, .72);
+            z-index: 2100;
+        }
+
+        .account-overlay.open {
+            display: flex;
+        }
+
+        .account-modal {
+            width: min(430px, 100%);
+            background: #fff;
+            color: #0f172a;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 20px 55px rgba(0,0,0,.3);
+        }
+
+        .account-modal-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: flex-start;
+            margin-bottom: 22px;
+        }
+
+        .account-modal h2 {
+            margin-bottom: 6px;
+        }
+
+        .account-modal-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .account-close {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #0f172a;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .account-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .account-form label {
+            margin-top: 4px;
+        }
+
+        .account-submit {
+            border: 0;
+            border-radius: 8px;
+            padding: 13px;
+            background: var(--orange);
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .account-socials {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .account-social {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 11px 8px;
+            background: #fff;
+            color: #0f172a;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .account-social:hover {
+            background: #f8fafc;
+        }
+
+        .account-switch {
+            margin-top: 18px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .account-switch button {
+            border: 0;
+            background: none;
+            color: #c56f00;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .account-message {
+            display: none;
+            padding: 10px 12px;
+            border: 1px solid #fecaca;
+            border-radius: 7px;
+            background: #fef2f2;
+            color: #991b1b;
+            font-size: 14px;
+        }
+
+        .account-note {
+            margin-top: 16px;
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .admin-panel {
+            display: none;
+            max-width: 1200px;
+            margin: 28px auto 0;
+            padding: 22px;
+            background: rgba(255,255,255,.97);
+            border-radius: 12px;
+            color: #0f172a;
+            box-shadow: 0 8px 20px rgba(0,0,0,.16);
+        }
+
+        .admin-panel.open {
+            display: block;
+        }
+
+        .admin-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .admin-panel-header p {
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .admin-form .full {
+            grid-column: 1 / -1;
+        }
+
+        .admin-form-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .admin-save,
+        .admin-cancel,
+        .admin-edit,
+        .admin-delete {
+            border: 0;
+            border-radius: 7px;
+            padding: 10px 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .admin-save {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .admin-cancel,
+        .admin-edit {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .admin-delete {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .admin-products {
+            display: grid;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .admin-category-manager {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .admin-category-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .admin-category-form input {
+            flex: 1;
+        }
+
+        .admin-category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .admin-category-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: #f8fafc;
+            font-size: 14px;
+        }
+
+        .admin-category-remove {
+            border: 0;
+            background: transparent;
+            color: #b91c1c;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .admin-product-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .admin-product-row small {
+            color: #64748b;
+        }
+
+        .admin-available {
+            color: var(--green);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .orders-panel {
+            display: none;
+            max-width: 1200px;
+            margin: 28px auto 0;
+            padding: 22px;
+            background: rgba(255,255,255,.97);
+            border-radius: 12px;
+            color: #0f172a;
+            box-shadow: 0 8px 20px rgba(0,0,0,.16);
+        }
+
+        .orders-panel.open {
+            display: block;
+        }
+
+        .orders-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .order-card {
+            padding: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .order-status-badge {
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #e0f2fe;
+            color: #075985;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .order-card p {
+            margin-top: 5px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .admin-order-row {
+            display: grid;
+            grid-template-columns: 1fr 190px;
+            gap: 15px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .admin-order-row select {
+            width: 100%;
         }
 
         /* CHECKOUT */
@@ -717,6 +1091,11 @@
                 font-size: 14px;
             }
 
+            .account-button {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+
             .shop-brand-mark {
                 font-size: 1.2rem;
             }
@@ -724,6 +1103,25 @@
             .toast {
                 width: calc(100% - 24px);
                 text-align: center;
+            }
+
+            .account-socials {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form,
+            .admin-product-row,
+            .admin-order-row {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-category-form {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form .full {
+                grid-column: auto;
             }
         }
     </style>
@@ -759,6 +1157,9 @@
         </a>
 
         <div class="shop-nav-actions">
+            <button class="account-button" id="accountButton" type="button" onclick="openAccount()">
+                👤 Prihlásenie
+            </button>
             <button class="cart-button" onclick="openCart()">
                 🛒 Košík (<span id="cartCount">0</span>)
             </button>
@@ -795,49 +1196,7 @@
 
     </div>
 
-    <div class="categories">
-
-        <button class="category active"
-                onclick="setCategory('Všetky', this)">
-            Všetky
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Stavebné rozvádzače', this)">
-            🏗️ Stavebné rozvádzače
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Bytové rozvádzače', this)">
-            🔲 Bytové rozvádzače
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Ističe', this)">
-            ⚡ Ističe
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Prúdové chrániče', this)">
-            🛡️ Prúdové chrániče
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Ističochrániče', this)">
-            🔌 Ističochrániče
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Prepäťové ochrany', this)">
-            ⚡ Prepäťové ochrany
-        </button>
-
-        <button class="category"
-                onclick="setCategory('Inštalačný materiál', this)">
-            🔧 Inštalačný materiál
-        </button>
-
-    </div>
+    <div class="categories" id="categoryButtons"></div>
 
     <div class="products" id="products"></div>
 
@@ -956,6 +1315,121 @@
 
 </div>
 
+<!-- ACCOUNT -->
+
+<div class="account-overlay" id="accountOverlay" role="dialog" aria-modal="true" aria-labelledby="accountTitle" onclick="if (event.target === this) closeAccount()">
+    <div class="account-modal">
+        <div class="account-modal-header">
+            <div>
+                <h2 id="accountTitle">Prihlásenie</h2>
+                <p class="account-modal-subtitle" id="accountSubtitle">Prihláste sa do svojho ROVOLT účtu.</p>
+
+            </div>
+            <button class="account-close" type="button" onclick="closeAccount()" aria-label="Zavrieť prihlasovanie">×</button>
+        </div>
+
+        <form class="account-form" id="accountForm">
+            <label for="accountEmail">E-mail</label>
+            <input id="accountEmail" name="email" type="email" autocomplete="email" required>
+
+            <label for="accountPassword">Heslo</label>
+            <input id="accountPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
+
+            <div class="account-message" id="accountMessage" role="alert"></div>
+            <button class="account-submit" id="accountSubmit" type="submit">Prihlásiť sa</button>
+        </form>
+
+        <div class="account-socials">
+            <button class="account-social" type="button" onclick="startSocialLogin('Google')">G  Google</button>
+            <button class="account-social" type="button" onclick="startSocialLogin('Apple')">  Apple</button>
+        </div>
+
+        <p class="account-switch" id="accountSwitchText">Nemáte účet?
+            <button type="button" onclick="toggleAccountMode()">Zaregistrovať sa</button>
+        </p>
+        <p class="account-note">Demo prihlásenie pre statickú stránku. Pre reálnych používateľov treba doplniť bezpečný backend a OAuth nastavenie.</p>
+    </div>
+</div>
+
+<section class="admin-panel" id="adminPanel" aria-labelledby="adminPanelTitle">
+    <div class="admin-panel-header">
+        <div>
+            <h2 id="adminPanelTitle">Administrácia produktov</h2>
+            <p>Pridávajte produkty alebo upravujte ich názov, popis, cenu a dostupnosť.</p>
+        </div>
+    </div>
+
+    <div class="admin-category-manager">
+        <h3>Kategórie</h3>
+        <form class="admin-category-form" id="adminCategoryForm">
+            <input id="adminCategoryName" type="text" placeholder="Názov novej kategórie" required>
+            <button class="admin-save" type="submit">Pridať kategóriu</button>
+        </form>
+        <div class="admin-category-list" id="adminCategoryList"></div>
+    </div>
+
+    <form class="admin-form" id="adminProductForm">
+        <input type="hidden" id="adminProductId">
+
+        <div class="form-group">
+            <label for="adminProductName">Názov produktu *</label>
+            <input id="adminProductName" type="text" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adminProductCategory">Kategória *</label>
+            <select id="adminProductCategory" required></select>
+        </div>
+
+        <div class="form-group">
+            <label for="adminProductPrice">Cena s DPH (€) *</label>
+            <input id="adminProductPrice" type="number" min="0" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adminProductDiscount">Zľava (%)</label>
+            <input id="adminProductDiscount" type="number" min="0" max="100" step="1" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="adminProductIcon">Ikona</label>
+            <input id="adminProductIcon" type="text" value="⚡" maxlength="4">
+        </div>
+
+        <div class="form-group full">
+            <label for="adminProductDescription">Popis *</label>
+            <textarea id="adminProductDescription" required></textarea>
+        </div>
+
+        <div class="form-group full">
+            <label for="adminProductAvailability">Dostupnosť produktu *</label>
+            <select id="adminProductAvailability" required>
+                <option value="unavailable">Nedostupné</option>
+                <option value="order">Dostupné na objednávku</option>
+                <option value="stock">Na sklade</option>
+            </select>
+        </div>
+
+        <div class="admin-form-actions full">
+            <button class="admin-save" type="submit" id="adminSaveButton">Pridať produkt</button>
+            <button class="admin-cancel" type="button" id="adminCancelButton" onclick="resetAdminForm()" hidden>Zrušiť úpravu</button>
+        </div>
+    </form>
+
+    <div class="admin-products" id="adminProducts"></div>
+
+    <div class="admin-category-manager">
+        <h3>Objednávky zákazníkov</h3>
+        <div class="orders-list" id="adminOrders"></div>
+    </div>
+</section>
+
+<section class="orders-panel" id="ordersPanel" aria-labelledby="ordersPanelTitle">
+    <h2 id="ordersPanelTitle">Moje objednávky</h2>
+    <p class="account-modal-subtitle">História objednávok a ich aktuálny stav.</p>
+    <div class="orders-list" id="customerOrders"></div>
+</section>
+
 <footer>
 
     <div class="footer-inner">
@@ -981,7 +1455,7 @@
        PRODUKTY
        ========================= */
 
-    const products = [
+    let products = JSON.parse(localStorage.getItem("rovoltProducts")) || [
 
         {
             id: 1,
@@ -1129,6 +1603,17 @@
 
     ];
 
+    const defaultCategories = [
+        "Stavebné rozvádzače",
+        "Bytové rozvádzače",
+        "Ističe",
+        "Prúdové chrániče",
+        "Ističochrániče",
+        "Prepäťové ochrany",
+        "Inštalačný materiál"
+    ];
+    let categories = JSON.parse(localStorage.getItem("rovoltCategories")) || defaultCategories;
+
 
     /* =========================
        KOŠÍK
@@ -1137,6 +1622,47 @@
     let cart = JSON.parse(localStorage.getItem("rovoltCart")) || [];
 
     let currentCategory = "Všetky";
+
+    function saveProducts() {
+        localStorage.setItem("rovoltProducts", JSON.stringify(products));
+    }
+
+    function saveCategories() {
+        localStorage.setItem("rovoltCategories", JSON.stringify(categories));
+    }
+
+    let orders = JSON.parse(localStorage.getItem("rovoltOrders")) || [];
+    const orderStatuses = [
+        "Prijatá",
+        "Spracováva sa",
+        "Odoslaná",
+        "Dokončená",
+        "Zrušená"
+    ];
+
+    function saveOrders() {
+        localStorage.setItem("rovoltOrders", JSON.stringify(orders));
+    }
+
+    function getOrderStatus(order) {
+        return orderStatuses.includes(order.status) ? order.status : "Prijatá";
+    }
+
+    function formatOrderDate(value) {
+        return new Date(value).toLocaleString("sk-SK", {
+            dateStyle: "medium",
+            timeStyle: "short"
+        });
+    }
+
+    function escapeHTML(value) {
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
 
 
     function saveCart() {
@@ -1164,7 +1690,7 @@
 
         const product = products.find(p => p.id === id);
 
-        if (!product || product.available !== true) {
+        if (!product || !isProductPurchasable(product)) {
             if (product) {
                 showToast(`Nedostupné: ${product.name}`);
             }
@@ -1188,7 +1714,7 @@
 
         saveCart();
         updateCart();
-        showToast(`Nedostupné: ${product.name}`);
+        showToast(`Pridané do košíka: ${product.name}`);
 
     }
 
@@ -1230,7 +1756,7 @@
             if (!product) return;
 
             const itemTotal =
-                product.price * item.quantity;
+                getDiscountedPrice(product) * item.quantity;
 
             total += itemTotal;
             count += item.quantity;
@@ -1301,6 +1827,29 @@
 
     }
 
+    function getDiscountedPrice(product) {
+        const discount = Math.min(100, Math.max(0, Number(product.discount) || 0));
+        return product.price * (1 - discount / 100);
+    }
+
+    function getAvailability(product) {
+        if (product.availability) return product.availability;
+        return product.available === true ? "order" : "unavailable";
+    }
+
+    function getAvailabilityLabel(product) {
+        const labels = {
+            stock: "Na sklade",
+            order: "Dostupné na objednávku",
+            unavailable: "Nedostupné"
+        };
+        return labels[getAvailability(product)] || labels.unavailable;
+    }
+
+    function isProductPurchasable(product) {
+        return ["stock", "order"].includes(getAvailability(product));
+    }
+
 
     /* =========================
        PRODUKTY
@@ -1350,40 +1899,42 @@
                 <article class="product">
 
                     <div class="product-image">
-                        ${product.icon}
+                        ${escapeHTML(product.icon)}
                     </div>
 
                     <div class="product-content">
 
                         <div class="product-category">
-                            ${product.category}
+                            ${escapeHTML(product.category)}
                         </div>
 
                         <h3>
-                            ${product.name}
+                            ${escapeHTML(product.name)}
                         </h3>
 
                         <p class="product-description">
-                            ${product.description}
+                            ${escapeHTML(product.description)}
                         </p>
 
-                        <div class="stock">
-                            ● Nedostupné
+                        <div class="stock" style="color: ${isProductPurchasable(product) ? "var(--green)" : "var(--red)"}">
+                            ● ${getAvailabilityLabel(product)}
                         </div>
 
                         <div class="product-bottom">
 
+                            ${Number(product.discount) > 0 ? `<div class="discount-badge">-${Number(product.discount)} %</div>` : ""}
                             <div class="price">
-                                ${formatPrice(product.price)}
+                                ${Number(product.discount) > 0 ? `<span class="price-old">${formatPrice(product.price)}</span>` : ""}
+                                ${formatPrice(getDiscountedPrice(product))}
                                 <small>s DPH</small>
                             </div>
 
                             <button
                                 class="add-button"
                                 onclick="addToCart(${product.id})"
-                                ${product.available === true ? "" : "disabled"}>
+                                ${isProductPurchasable(product) ? "" : "disabled"}>
 
-                                ${product.available === true ? "🛒 Pridať do košíka" : "Nedostupné"}
+                                ${isProductPurchasable(product) ? "🛒 Pridať do košíka" : "Nedostupné"}
 
                             </button>
 
@@ -1411,6 +1962,7 @@
         button.classList.add("active");
 
         renderProducts();
+        renderCategories();
 
     }
 
@@ -1420,6 +1972,275 @@
         renderProducts();
 
     }
+
+    function renderCustomerOrders() {
+        const container = document.getElementById("customerOrders");
+        const panel = document.getElementById("ordersPanel");
+
+        if (!currentUser || currentUser.isAdmin) {
+            panel.classList.remove("open");
+            container.innerHTML = "";
+            return;
+        }
+
+        panel.classList.add("open");
+        const customerOrders = orders.filter(order => order.customerEmail === currentUser.email);
+
+        if (customerOrders.length === 0) {
+            container.innerHTML = "<p>Zatiaľ nemáte žiadne objednávky.</p>";
+            return;
+        }
+
+        container.innerHTML = customerOrders.slice().reverse().map(order => `
+            <article class="order-card">
+                <div class="order-card-header">
+                    <strong>Objednávka #${escapeHTML(order.id)}</strong>
+                    <span class="order-status-badge">${escapeHTML(getOrderStatus(order))}</span>
+                </div>
+                <p>${escapeHTML(formatOrderDate(order.createdAt))} · ${formatPrice(order.total)}</p>
+                <p>${escapeHTML(order.items.map(item => `${item.name} (${item.quantity} ks)`).join(", "))}</p>
+            </article>
+        `).join("");
+    }
+
+    function renderAdminOrders() {
+        const container = document.getElementById("adminOrders");
+
+        if (!currentUser || !currentUser.isAdmin) {
+            container.innerHTML = "";
+            return;
+        }
+
+        if (orders.length === 0) {
+            container.innerHTML = "<p>Zatiaľ nebola vytvorená žiadna objednávka.</p>";
+            return;
+        }
+
+        container.innerHTML = orders.slice().reverse().map(order => `
+            <div class="admin-order-row">
+                <div>
+                    <strong>#${escapeHTML(order.id)} · ${escapeHTML(order.customerEmail)}</strong>
+                    <p>${escapeHTML(formatOrderDate(order.createdAt))} · ${formatPrice(order.total)}</p>
+                    <p>${escapeHTML(order.items.map(item => `${item.name} (${item.quantity} ks)`).join(", "))}</p>
+                </div>
+                <select aria-label="Stav objednávky ${escapeHTML(order.id)}" onchange="changeOrderStatus('${escapeHTML(order.id)}', this.value)">
+                    ${orderStatuses.map(status => `<option value="${escapeHTML(status)}"${getOrderStatus(order) === status ? " selected" : ""}>${escapeHTML(status)}</option>`).join("")}
+                </select>
+            </div>
+        `).join("");
+    }
+
+    function changeOrderStatus(orderId, status) {
+        if (!currentUser || !currentUser.isAdmin || !orderStatuses.includes(status)) return;
+
+        const order = orders.find(item => item.id === orderId);
+        if (!order) return;
+
+        order.status = status;
+        saveOrders();
+        renderAdminOrders();
+        renderCustomerOrders();
+        showToast("Stav objednávky bol upravený.");
+    }
+
+    function renderCategories() {
+        const container = document.getElementById("categoryButtons");
+
+        if (!categories.includes(currentCategory)) {
+            currentCategory = "Všetky";
+        }
+
+        container.innerHTML = "";
+        const allButton = document.createElement("button");
+        allButton.className = `category${currentCategory === "Všetky" ? " active" : ""}`;
+        allButton.type = "button";
+        allButton.textContent = "Všetky";
+        allButton.addEventListener("click", () => setCategory("Všetky", allButton));
+        container.appendChild(allButton);
+
+        categories.forEach(category => {
+            const button = document.createElement("button");
+            button.className = `category${currentCategory === category ? " active" : ""}`;
+            button.type = "button";
+            button.textContent = category;
+            button.addEventListener("click", () => setCategory(category, button));
+            container.appendChild(button);
+        });
+    }
+
+    function renderAdminCategories() {
+        const container = document.getElementById("adminCategoryList");
+
+        if (!currentUser || !currentUser.isAdmin) {
+            container.innerHTML = "";
+            return;
+        }
+
+        container.innerHTML = categories.map(category => `
+            <span class="admin-category-item">
+                ${escapeHTML(category)}
+                <button class="admin-category-remove" type="button" title="Odstrániť kategóriu" data-category="${escapeHTML(category)}">×</button>
+            </span>
+        `).join("");
+
+        container.querySelectorAll(".admin-category-remove").forEach(button => {
+            button.addEventListener("click", () => deleteAdminCategory(button.dataset.category));
+        });
+    }
+
+    function renderAdminCategoryOptions(selectedCategory) {
+        const select = document.getElementById("adminProductCategory");
+        const categoryToSelect = categories.includes(selectedCategory) ? selectedCategory : categories[0];
+        select.innerHTML = categories.map(category => `<option value="${escapeHTML(category)}">${escapeHTML(category)}</option>`).join("");
+        if (categoryToSelect) select.value = categoryToSelect;
+    }
+
+    function deleteAdminCategory(category) {
+        if (!currentUser || !currentUser.isAdmin) return;
+
+        if (products.some(product => product.category === category)) {
+            showToast("Kategóriu nie je možné odstrániť, pretože obsahuje produkty.");
+            return;
+        }
+
+        if (categories.length === 1 || !confirm(`Odstrániť kategóriu „${category}“?`)) return;
+
+        categories = categories.filter(item => item !== category);
+        saveCategories();
+        renderCategories();
+        renderAdminCategories();
+        renderAdminCategoryOptions();
+        renderProducts();
+        showToast("Kategória bola odstránená.");
+    }
+
+    document.getElementById("adminCategoryForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        if (!currentUser || !currentUser.isAdmin) return;
+
+        const input = document.getElementById("adminCategoryName");
+        const category = input.value.trim();
+
+        if (!category) return;
+        if (categories.some(item => item.toLowerCase() === category.toLowerCase())) {
+            showToast("Takáto kategória už existuje.");
+            return;
+        }
+
+        categories.push(category);
+        saveCategories();
+        renderCategories();
+        renderAdminCategories();
+        renderAdminCategoryOptions(category);
+        input.value = "";
+        showToast("Kategória bola pridaná.");
+    });
+
+
+    /* =========================
+       ADMINISTRACIA PRODUKTOV
+       ========================= */
+
+    function renderAdminProducts() {
+        const container = document.getElementById("adminProducts");
+
+        if (!currentUser || !currentUser.isAdmin) {
+            container.innerHTML = "";
+            return;
+        }
+
+        container.innerHTML = products.map(product => `
+            <div class="admin-product-row">
+                <div>
+                    <strong>${escapeHTML(product.name)}</strong>
+                    <small>${escapeHTML(product.category)} · ${formatPrice(getDiscountedPrice(product))}${Number(product.discount) > 0 ? ` · zľava ${Number(product.discount)} %` : ""}</small>
+                </div>
+                <span class="admin-available">${getAvailabilityLabel(product)}</span>
+                <button class="admin-edit" type="button" onclick="editAdminProduct(${product.id})">Upraviť</button>
+                <button class="admin-delete" type="button" onclick="deleteAdminProduct(${product.id})">Odstrániť</button>
+            </div>
+        `).join("");
+        renderAdminCategories();
+        renderAdminCategoryOptions();
+    }
+
+    function resetAdminForm() {
+        document.getElementById("adminProductForm").reset();
+        document.getElementById("adminProductId").value = "";
+        document.getElementById("adminProductIcon").value = "⚡";
+        document.getElementById("adminSaveButton").textContent = "Pridať produkt";
+        document.getElementById("adminCancelButton").hidden = true;
+    }
+
+    function editAdminProduct(id) {
+        const product = products.find(item => item.id === id);
+        if (!product || !currentUser || !currentUser.isAdmin) return;
+
+        document.getElementById("adminProductId").value = product.id;
+        document.getElementById("adminProductName").value = product.name;
+        document.getElementById("adminProductCategory").value = product.category;
+        document.getElementById("adminProductPrice").value = product.price;
+        document.getElementById("adminProductDiscount").value = Number(product.discount) || 0;
+        document.getElementById("adminProductIcon").value = product.icon;
+        document.getElementById("adminProductDescription").value = product.description;
+        document.getElementById("adminProductAvailability").value = getAvailability(product);
+        document.getElementById("adminSaveButton").textContent = "Uložiť zmeny";
+        document.getElementById("adminCancelButton").hidden = false;
+        document.getElementById("adminProductName").focus();
+    }
+
+    function deleteAdminProduct(id) {
+        if (!currentUser || !currentUser.isAdmin) return;
+
+        const product = products.find(item => item.id === id);
+        if (!product || !confirm(`Odstrániť produkt „${product.name}“?`)) return;
+
+        products = products.filter(item => item.id !== id);
+        cart = cart.filter(item => item.id !== id);
+        saveProducts();
+        saveCart();
+        renderProducts();
+        updateCart();
+        renderAdminProducts();
+        resetAdminForm();
+        showToast("Produkt bol odstránený.");
+    }
+
+    document.getElementById("adminProductForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        if (!currentUser || !currentUser.isAdmin) return;
+
+        const productId = Number(document.getElementById("adminProductId").value);
+        const productData = {
+            name: document.getElementById("adminProductName").value.trim(),
+            category: document.getElementById("adminProductCategory").value,
+            price: Number(document.getElementById("adminProductPrice").value),
+            discount: Number(document.getElementById("adminProductDiscount").value) || 0,
+            icon: document.getElementById("adminProductIcon").value.trim() || "⚡",
+            description: document.getElementById("adminProductDescription").value.trim(),
+            availability: document.getElementById("adminProductAvailability").value
+        };
+
+        if (!productData.name || !productData.description || !Number.isFinite(productData.price) || productData.price < 0 || productData.discount < 0 || productData.discount > 100) {
+            showToast("Vyplňte názov, popis a platnú cenu.");
+            return;
+        }
+
+        if (productId) {
+            const product = products.find(item => item.id === productId);
+            Object.assign(product, productData);
+            showToast("Produkt bol upravený.");
+        } else {
+            const nextId = products.reduce((highestId, item) => Math.max(highestId, item.id), 0) + 1;
+            products.push({ id: nextId, ...productData });
+            showToast("Produkt bol pridaný.");
+        }
+
+        saveProducts();
+        renderProducts();
+        renderAdminProducts();
+        resetAdminForm();
+    });
 
 
     /* =========================
@@ -1484,6 +2305,108 @@
 
 
     /* =========================
+       UCET
+       ========================= */
+
+    let accountMode = "login";
+    const adminAccount = {
+        email: "info@rovolt.sk",
+        password: "Romino"
+    };
+    let currentUser = JSON.parse(localStorage.getItem("rovoltSession")) || null;
+
+    function openAccount() {
+        if (currentUser) {
+            const shouldLogout = confirm(`Ste prihlásený ako ${currentUser.email}. Chcete sa odhlásiť?`);
+            if (shouldLogout) {
+                currentUser = null;
+                localStorage.removeItem("rovoltSession");
+                updateAccountButton();
+                showToast("Boli ste odhlásený.");
+            }
+            return;
+        }
+
+        document.getElementById("accountOverlay").classList.add("open");
+        document.getElementById("accountEmail").focus();
+    }
+
+    function closeAccount() {
+        document.getElementById("accountOverlay").classList.remove("open");
+        document.getElementById("accountMessage").style.display = "none";
+        document.getElementById("accountForm").reset();
+    }
+
+    function toggleAccountMode() {
+        accountMode = accountMode === "login" ? "register" : "login";
+        const isRegistering = accountMode === "register";
+        document.getElementById("accountTitle").textContent = isRegistering ? "Registrácia" : "Prihlásenie";
+        document.getElementById("accountSubtitle").textContent = isRegistering ? "Vytvorte si ROVOLT účet." : "Prihláste sa do svojho ROVOLT účtu.";
+        document.getElementById("accountSubmit").textContent = isRegistering ? "Vytvoriť účet" : "Prihlásiť sa";
+        document.getElementById("accountSwitchText").innerHTML = isRegistering
+            ? 'Už máte účet? <button type="button" onclick="toggleAccountMode()">Prihlásiť sa</button>'
+            : 'Nemáte účet? <button type="button" onclick="toggleAccountMode()">Zaregistrovať sa</button>';
+        document.getElementById("accountPassword").setAttribute("autocomplete", isRegistering ? "new-password" : "current-password");
+    }
+
+    function updateAccountButton() {
+        document.getElementById("accountButton").textContent = currentUser ? `👤 ${currentUser.email}` : "👤 Prihlásenie";
+        document.getElementById("adminPanel").classList.toggle("open", Boolean(currentUser && currentUser.isAdmin));
+        renderAdminProducts();
+        renderAdminOrders();
+        renderCustomerOrders();
+    }
+
+    function startSocialLogin(provider) {
+        showToast(`${provider} prihlásenie bude aktívne po doplnení OAuth konfigurácie.`);
+    }
+
+    document.getElementById("accountForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("accountEmail").value.trim().toLowerCase();
+        const password = document.getElementById("accountPassword").value;
+        const message = document.getElementById("accountMessage");
+        const savedUser = JSON.parse(localStorage.getItem("rovoltUser"));
+
+        if (accountMode === "register") {
+            if (email === adminAccount.email) {
+                message.textContent = "Tento e-mail je vyhradený pre administrátora.";
+                message.style.display = "block";
+                return;
+            }
+
+            localStorage.setItem("rovoltUser", JSON.stringify({ email, password }));
+            currentUser = { email };
+            localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
+            closeAccount();
+            updateAccountButton();
+            showToast("Účet bol vytvorený.");
+            return;
+        }
+
+        const isAdmin = email === adminAccount.email && password === adminAccount.password;
+        const isSavedUser = savedUser && savedUser.email === email && savedUser.password === password;
+
+        if (!isAdmin && !isSavedUser) {
+            message.textContent = "Nesprávny e-mail alebo heslo.";
+            message.style.display = "block";
+            return;
+        }
+
+        currentUser = { email, isAdmin };
+        localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
+        closeAccount();
+        updateAccountButton();
+        showToast("Úspešne ste sa prihlásili.");
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeAccount();
+    });
+
+
+    /* =========================
        OBJEDNÁVKA
        ========================= */
 
@@ -1501,13 +2424,35 @@
 
             let orderText = "";
             let total = 0;
+            const orderItems = [];
 
             cart.forEach(item => {
                 const product = products.find(p => p.id === item.id);
-                const itemTotal = product.price * item.quantity;
+                const itemTotal = getDiscountedPrice(product) * item.quantity;
                 total += itemTotal;
+                orderItems.push({
+                    name: product.name,
+                    quantity: item.quantity,
+                    price: getDiscountedPrice(product)
+                });
                 orderText += `${product.name} – ${item.quantity} ks – ${formatPrice(itemTotal)}\n`;
             });
+
+            const customerEmail = currentUser && !currentUser.isAdmin
+                ? currentUser.email
+                : new FormData(this).get("email");
+            const newOrder = {
+                id: `RV-${Date.now()}`,
+                customerEmail,
+                createdAt: new Date().toISOString(),
+                total,
+                items: orderItems,
+                status: "Prijatá"
+            };
+            orders.push(newOrder);
+            saveOrders();
+            renderAdminOrders();
+            renderCustomerOrders();
 
             document.getElementById("orderSummary").value = `Objednávka z ROVOLT E-shopu:\n\n${orderText}\nCelkom: ${formatPrice(total)}`;
             document.getElementById("orderTotal").value = formatPrice(total);
@@ -1527,8 +2472,10 @@
        ========================= */
 
     renderProducts();
+    renderCategories();
 
     updateCart();
+    updateAccountButton();
 
 </script>
 

@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
-
     <title>ROVOLT E-shop | Elektroinštalačný materiál</title>
-
-    <meta name="description"
-          content="ROVOLT E-shop – stavebné a bytové rozvádzače, ističe, prúdové chrániče, prepäťové ochrany a elektroinštalačný materiál.">
-
+    <meta name="description" content="ROVOLT E-shop – stavebné a bytové rozvádzače, ističe, prúdové chrániče, prepäťové ochrany a elektroinštalačný materiál.">
     <link rel="stylesheet" href="styles.css">
-
     <style>
         :root {
             --orange: #f28c00;
@@ -333,6 +328,28 @@
             align-items: center;
             justify-content: center;
             font-size: 60px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+        }
+
+        .admin-image-preview {
+            display: none;
+            width: 90px;
+            height: 70px;
+            margin-top: 8px;
+            object-fit: contain;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: #f8fafc;
+        }
+
+        .admin-image-preview.visible {
+            display: block;
         }
 
         .product-content {
@@ -685,6 +702,35 @@
             text-align: center;
         }
 
+        .terms-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #dbeafe;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+
+        .terms-modal {
+            width: min(620px, 100%);
+            max-height: min(720px, 90vh);
+            overflow-y: auto;
+        }
+
+        .terms-content {
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .terms-content ul {
+            margin: 14px 0 0 20px;
+        }
+
+        .terms-content li + li {
+            margin-top: 10px;
+        }
+
         .admin-panel {
             display: none;
             max-width: 1200px;
@@ -821,6 +867,31 @@
             color: #64748b;
         }
 
+        .admin-product-group {
+            margin-top: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .admin-product-group summary {
+            padding: 13px 15px;
+            background: #f8fafc;
+            color: #0f172a;
+            cursor: pointer;
+            font-weight: bold;
+            list-style-position: inside;
+        }
+
+        .admin-product-group summary:hover {
+            background: #f1f5f9;
+        }
+
+        .admin-product-group-content {
+            padding: 0 15px;
+        }
+
         .admin-available {
             color: var(--green);
             font-size: 12px;
@@ -950,6 +1021,38 @@
         textarea {
             min-height: 100px;
             resize: vertical;
+        }
+
+        .consent-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-top: 16px;
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .consent-group input {
+            flex: 0 0 auto;
+            width: 18px;
+            height: 18px;
+            margin-top: 1px;
+            accent-color: var(--orange);
+        }
+
+        .consent-group a,
+        .consent-group button {
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .consent-group button {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            text-decoration: underline;
         }
 
         .submit-order {
@@ -1168,10 +1271,6 @@
     </div>
 </header>
 
-<section class="shop-closed-banner">
-    Momentálne je eshop zatvorený a všetky tovary sú momentálne nedostupné.
-</section>
-
 <section class="hero">
     <div class="hero-inner">
         <h1>ROVOLT <span>E-SHOP</span></h1>
@@ -1261,10 +1360,6 @@
                     <option value="Prevod na účet">
                         Platba prevodom na účet
                     </option>
-
-                    <option value="Dobierka">
-                        Dobierka
-                    </option>
                 </select>
             </div>
 
@@ -1272,6 +1367,16 @@
                 <label>Poznámka k objednávke</label>
                 <textarea name="poznamka"></textarea>
             </div>
+
+            <label class="consent-group full">
+                <input type="checkbox" name="suhlas_spracovanie_udajov" required>
+                <span>Súhlasím so spracovaním osobných údajov na účely vybavenia objednávky. *</span>
+            </label>
+
+            <label class="consent-group full">
+                <input type="checkbox" name="suhlas_obchodne_podmienky" required>
+                <span>Súhlasím s <button type="button" onclick="openTerms()">obchodnými podmienkami</button>. *</span>
+            </label>
 
         </div>
 
@@ -1351,6 +1456,29 @@
     </div>
 </div>
 
+<div class="account-overlay" id="termsOverlay" role="dialog" aria-modal="true" aria-labelledby="termsTitle" onclick="if (event.target === this) closeTerms()">
+    <div class="account-modal terms-modal">
+        <div class="account-modal-header">
+            <div>
+                <h2 id="termsTitle">Obchodné podmienky</h2>
+                <p class="account-modal-subtitle">Základné informácie k objednávkam v ROVOLT e-shope.</p>
+            </div>
+            <button class="account-close" type="button" onclick="closeTerms()" aria-label="Zavrieť obchodné podmienky">×</button>
+        </div>
+
+        <div class="terms-content">
+            <ul>
+                <li>Produkty dostupné na objednávku doručujeme spravidla do 7 až 10 pracovných dní. Termín závisí od dostupnosti u dodávateľa.</li>
+                <li>Produkty označené ako „Na sklade“ doručujeme spravidla do 3 až 5 pracovných dní.</li>
+                <li>Presný termín dodania zákazníkovi potvrdíme po prijatí a overení objednávky.</li>
+                <li>Objednávku je možné uhradiť iba prevodom na účet.</li>
+                <li>Vyhradzujeme si právo objednávku zrušiť, najmä pri nedostupnosti produktu, nesprávne uvedenej cene alebo z iných vážnych prevádzkových dôvodov. O zrušení zákazníka bezodkladne informujeme.</li>
+                <li>Odoslaním objednávky zákazník potvrdzuje, že sa s týmito podmienkami oboznámil.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <section class="admin-panel" id="adminPanel" aria-labelledby="adminPanelTitle">
     <div class="admin-panel-header">
         <div>
@@ -1392,8 +1520,9 @@
         </div>
 
         <div class="form-group">
-            <label for="adminProductIcon">Ikona</label>
-            <input id="adminProductIcon" type="text" value="⚡" maxlength="4">
+            <label for="adminProductImage">Obrázok produktu</label>
+            <input id="adminProductImage" type="file" accept="image/*">
+            <img id="adminImagePreview" class="admin-image-preview" alt="Náhľad obrázka produktu">
         </div>
 
         <div class="form-group full">
@@ -1442,14 +1571,30 @@
         <div>
             <strong>Kontakt</strong>
             <p>info@rovolt.sk</p>
+            <button class="terms-link" type="button" onclick="openTerms()">Obchodné podmienky</button>
         </div>
 
     </div>
 
 </footer>
 
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
 <script src="script.js"></script>
 <script>
+
+    const auth0Config = {
+        domain: "dev-e55qme7wm6oyfonx.us.auth0.com",
+        clientId: "czFqnHPZfDqN3hetDJatm1TE1JG0land"
+    };
+    const auth0ClientPromise = auth0Config.domain && auth0Config.clientId && window.auth0
+        ? window.auth0.createAuth0Client({
+            domain: auth0Config.domain,
+            clientId: auth0Config.clientId,
+            authorizationParams: {
+                redirect_uri: window.location.origin + window.location.pathname
+            }
+        })
+        : null;
 
     /* =========================
        PRODUKTY
@@ -1613,6 +1758,13 @@
         "Inštalačný materiál"
     ];
     let categories = JSON.parse(localStorage.getItem("rovoltCategories")) || defaultCategories;
+    let selectedProductImage = "";
+
+    products.forEach(product => {
+        product.availability = "order";
+        delete product.available;
+    });
+    localStorage.setItem("rovoltProducts", JSON.stringify(products));
 
 
     /* =========================
@@ -1630,6 +1782,26 @@
     function saveCategories() {
         localStorage.setItem("rovoltCategories", JSON.stringify(categories));
     }
+
+    document.getElementById("adminProductImage").addEventListener("change", function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            showToast("Vyberte prosím obrázok.");
+            this.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            selectedProductImage = reader.result;
+            const preview = document.getElementById("adminImagePreview");
+            preview.src = selectedProductImage;
+            preview.classList.add("visible");
+        });
+        reader.readAsDataURL(file);
+    });
 
     let orders = JSON.parse(localStorage.getItem("rovoltOrders")) || [];
     const orderStatuses = [
@@ -1662,6 +1834,13 @@
             .replaceAll(">", "&gt;")
             .replaceAll('"', "&quot;")
             .replaceAll("'", "&#039;");
+    }
+
+    function productImageMarkup(product) {
+        if (product.image) {
+            return `<img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}">`;
+        }
+        return escapeHTML(product.icon || "⚡");
     }
 
 
@@ -1899,7 +2078,7 @@
                 <article class="product">
 
                     <div class="product-image">
-                        ${escapeHTML(product.icon)}
+                        ${productImageMarkup(product)}
                     </div>
 
                     <div class="product-content">
@@ -2149,16 +2328,33 @@
             return;
         }
 
-        container.innerHTML = products.map(product => `
-            <div class="admin-product-row">
-                <div>
-                    <strong>${escapeHTML(product.name)}</strong>
-                    <small>${escapeHTML(product.category)} · ${formatPrice(getDiscountedPrice(product))}${Number(product.discount) > 0 ? ` · zľava ${Number(product.discount)} %` : ""}</small>
+        const groupedProducts = categories.map(category => ({
+            category,
+            products: products.filter(product => product.category === category)
+        }));
+        const uncategorized = products.filter(product => !categories.includes(product.category));
+
+        if (uncategorized.length > 0) {
+            groupedProducts.push({ category: "Ostatné", products: uncategorized });
+        }
+
+        container.innerHTML = groupedProducts.map((group, index) => `
+            <details class="admin-product-group"${index === 0 ? " open" : ""}>
+                <summary>${escapeHTML(group.category)} (${group.products.length})</summary>
+                <div class="admin-product-group-content">
+                    ${group.products.length === 0 ? "<p>V tejto kategórii zatiaľ nie sú žiadne produkty.</p>" : group.products.map(product => `
+                        <div class="admin-product-row">
+                            <div>
+                                <strong>${escapeHTML(product.name)}</strong>
+                                <small>${formatPrice(getDiscountedPrice(product))}${Number(product.discount) > 0 ? ` · zľava ${Number(product.discount)} %` : ""}</small>
+                            </div>
+                            <span class="admin-available">${getAvailabilityLabel(product)}</span>
+                            <button class="admin-edit" type="button" onclick="editAdminProduct(${product.id})">Upraviť</button>
+                            <button class="admin-delete" type="button" onclick="deleteAdminProduct(${product.id})">Odstrániť</button>
+                        </div>
+                    `).join("")}
                 </div>
-                <span class="admin-available">${getAvailabilityLabel(product)}</span>
-                <button class="admin-edit" type="button" onclick="editAdminProduct(${product.id})">Upraviť</button>
-                <button class="admin-delete" type="button" onclick="deleteAdminProduct(${product.id})">Odstrániť</button>
-            </div>
+            </details>
         `).join("");
         renderAdminCategories();
         renderAdminCategoryOptions();
@@ -2167,7 +2363,10 @@
     function resetAdminForm() {
         document.getElementById("adminProductForm").reset();
         document.getElementById("adminProductId").value = "";
-        document.getElementById("adminProductIcon").value = "⚡";
+        selectedProductImage = "";
+        const preview = document.getElementById("adminImagePreview");
+        preview.removeAttribute("src");
+        preview.classList.remove("visible");
         document.getElementById("adminSaveButton").textContent = "Pridať produkt";
         document.getElementById("adminCancelButton").hidden = true;
     }
@@ -2181,7 +2380,15 @@
         document.getElementById("adminProductCategory").value = product.category;
         document.getElementById("adminProductPrice").value = product.price;
         document.getElementById("adminProductDiscount").value = Number(product.discount) || 0;
-        document.getElementById("adminProductIcon").value = product.icon;
+        selectedProductImage = product.image || "";
+        const preview = document.getElementById("adminImagePreview");
+        if (selectedProductImage) {
+            preview.src = selectedProductImage;
+            preview.classList.add("visible");
+        } else {
+            preview.removeAttribute("src");
+            preview.classList.remove("visible");
+        }
         document.getElementById("adminProductDescription").value = product.description;
         document.getElementById("adminProductAvailability").value = getAvailability(product);
         document.getElementById("adminSaveButton").textContent = "Uložiť zmeny";
@@ -2216,7 +2423,8 @@
             category: document.getElementById("adminProductCategory").value,
             price: Number(document.getElementById("adminProductPrice").value),
             discount: Number(document.getElementById("adminProductDiscount").value) || 0,
-            icon: document.getElementById("adminProductIcon").value.trim() || "⚡",
+            image: selectedProductImage,
+            icon: "⚡",
             description: document.getElementById("adminProductDescription").value.trim(),
             availability: document.getElementById("adminProductAvailability").value
         };
@@ -2315,10 +2523,20 @@
     };
     let currentUser = JSON.parse(localStorage.getItem("rovoltSession")) || null;
 
-    function openAccount() {
+    async function openAccount() {
         if (currentUser) {
             const shouldLogout = confirm(`Ste prihlásený ako ${currentUser.email}. Chcete sa odhlásiť?`);
             if (shouldLogout) {
+                if (auth0ClientPromise) {
+                    const client = await auth0ClientPromise;
+                    await client.logout({
+                        logoutParams: {
+                            returnTo: window.location.origin + window.location.pathname
+                        }
+                    });
+                    return;
+                }
+
                 currentUser = null;
                 localStorage.removeItem("rovoltSession");
                 updateAccountButton();
@@ -2335,6 +2553,14 @@
         document.getElementById("accountOverlay").classList.remove("open");
         document.getElementById("accountMessage").style.display = "none";
         document.getElementById("accountForm").reset();
+    }
+
+    function openTerms() {
+        document.getElementById("termsOverlay").classList.add("open");
+    }
+
+    function closeTerms() {
+        document.getElementById("termsOverlay").classList.remove("open");
     }
 
     function toggleAccountMode() {
@@ -2357,8 +2583,45 @@
         renderCustomerOrders();
     }
 
-    function startSocialLogin(provider) {
-        showToast(`${provider} prihlásenie bude aktívne po doplnení OAuth konfigurácie.`);
+    async function startSocialLogin(provider) {
+        if (!auth0ClientPromise) {
+            showToast("Auth0 OAuth zatiaľ nie je nakonfigurované.");
+            return;
+        }
+
+        try {
+            const client = await auth0ClientPromise;
+            await client.loginWithRedirect({
+                authorizationParams: {
+                    connection: provider === "Google" ? "google-oauth2" : "apple"
+                }
+            });
+        } catch (error) {
+            showToast(`Prihlásenie cez ${provider} sa nepodarilo.`);
+        }
+    }
+
+    async function restoreAuth0Session() {
+        if (!auth0ClientPromise) return;
+
+        try {
+            const client = await auth0ClientPromise;
+            if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+                await client.handleRedirectCallback();
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            if (!(await client.isAuthenticated())) return;
+
+            const user = await client.getUser();
+            if (!user?.email) return;
+
+            currentUser = { email: user.email, isAdmin: user.email === adminAccount.email };
+            localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
+            updateAccountButton();
+        } catch (error) {
+            showToast("Auth0 prihlásenie sa nepodarilo obnoviť.");
+        }
     }
 
     document.getElementById("accountForm").addEventListener("submit", function(event) {
@@ -2403,6 +2666,7 @@
 
     document.addEventListener("keydown", event => {
         if (event.key === "Escape") closeAccount();
+        if (event.key === "Escape") closeTerms();
     });
 
 
@@ -2476,6 +2740,7 @@
 
     updateCart();
     updateAccountButton();
+    restoreAuth0Session();
 
 </script>
 

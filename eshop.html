@@ -351,6 +351,46 @@
         .admin-image-preview.visible {
             display: block;
         }
+        
+            .admin-image-previews {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 8px;
+            }
+        
+            .admin-image-choice {
+                position: relative;
+                display: block;
+                width: 86px;
+                height: 68px;
+                border: 2px solid #cbd5e1;
+                border-radius: 6px;
+                overflow: hidden;
+                cursor: pointer;
+                background: #f8fafc;
+            }
+        
+            .admin-image-choice.main {
+                border-color: var(--orange);
+                box-shadow: 0 0 0 2px rgba(242, 140, 0, .18);
+            }
+        
+            .admin-image-choice img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        
+            .admin-image-choice input {
+                position: absolute;
+                left: 5px;
+                top: 5px;
+                width: 16px;
+                height: 16px;
+                margin: 0;
+                accent-color: var(--orange);
+            }
 
         .product-content {
             padding: 18px;
@@ -729,6 +769,50 @@
 
         .terms-content li + li {
             margin-top: 10px;
+        }
+
+        .full-terms {
+            display: none;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+            color: #334155;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .full-terms.open {
+            display: block;
+        }
+
+        .full-terms h3 {
+            margin: 18px 0 8px;
+            color: #0f172a;
+            font-size: 16px;
+        }
+
+        .full-terms h3:first-child {
+            margin-top: 0;
+        }
+
+        .full-terms p {
+            margin-top: 6px;
+        }
+
+        .full-terms ul {
+            margin: 8px 0 0 20px;
+        }
+
+        .terms-expand {
+            width: 100%;
+            margin-top: 18px;
+            padding: 11px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: #f8fafc;
+            color: #0f172a;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         .admin-panel {
@@ -1476,6 +1560,91 @@
                 <li>Odoslaním objednávky zákazník potvrdzuje, že sa s týmito podmienkami oboznámil.</li>
             </ul>
         </div>
+        <button class="terms-expand" id="termsExpandButton" type="button" onclick="toggleFullTerms()">Zobraziť úplné VOP</button>
+        <div class="full-terms" id="fullTerms">
+            <h3>VŠEOBECNÉ OBCHODNÉ PODMIENKY</h3>
+            <p><strong>ROVOLT – elektroinštalácie a e-shop</strong></p>
+            <h3>1. Všeobecné ustanovenia</h3>
+            <p><strong>1.1.</strong> Tieto všeobecné obchodné podmienky (ďalej len „VOP“) upravujú práva a povinnosti predávajúceho a kupujúceho pri nákupe tovaru prostredníctvom internetového obchodu prevádzkovaného na webovej stránke rovolt.sk.</p>
+            <p><strong>1.2.</strong> Prevádzkovateľom internetového obchodu je Roman Chlebovec - ROVOLT, IČO: 57875189, DIČ: 1121595376, e-mail: info@rovolt.sk, telefón: 0904 826 557, web: rovolt.sk (ďalej len „predávajúci“).</p>
+            <p><strong>1.3.</strong> Kupujúcim je fyzická alebo právnická osoba, ktorá si prostredníctvom internetového obchodu objedná tovar.</p>
+            <p><strong>1.4.</strong> Spotrebiteľom je fyzická osoba, ktorá pri uzatváraní a plnení zmluvy nekoná v rámci svojej podnikateľskej činnosti, povolania alebo zamestnania.</p>
+            <p><strong>1.5.</strong> Tieto VOP sú neoddeliteľnou súčasťou kúpnej zmluvy.</p>
+
+            <h3>2. Objednávka a uzatvorenie kúpnej zmluvy</h3>
+            <p><strong>2.1.</strong> Kupujúci si môže tovar objednať prostredníctvom objednávkového systému rovolt.sk.</p>
+            <p><strong>2.2.</strong> Pred odoslaním objednávky má kupujúci možnosť skontrolovať a opraviť zadané údaje.</p>
+            <p><strong>2.3.</strong> Odoslaním objednávky kupujúci potvrdzuje, že objednávka zahŕňa povinnosť zaplatiť cenu objednaného tovaru.</p>
+            <p><strong>2.4.</strong> Objednávka sa považuje za návrh na uzatvorenie kúpnej zmluvy.</p>
+            <p><strong>2.5.</strong> Po odoslaní objednávky bude kupujúcemu doručené potvrdenie o prijatí objednávky.</p>
+            <p><strong>2.6.</strong> Kúpna zmluva vzniká potvrdením objednávky predávajúcim.</p>
+            <p><strong>2.7.</strong> Predávajúci si vyhradzuje právo objednávku odmietnuť pri nedostupnosti tovaru, nemožnosti dodania alebo zjavnej chybe v cene či popise produktu.</p>
+            <p><strong>2.8.</strong> O odmietnutí objednávky bude kupujúci informovaný bez zbytočného odkladu.</p>
+
+            <h3>3. Tovar a ceny</h3>
+            <p><strong>3.1.</strong> Sortiment tvorí najmä elektromateriál, elektrické prístroje, rozvádzače, ističe, prúdové chrániče a elektroinštalačný materiál.</p>
+            <p><strong>3.2.</strong> Predávajúci uvádza hlavné vlastnosti tovaru a cenu v súlade s platnými právnymi predpismi.</p>
+            <p><strong>3.3.</strong> Cena tovaru je uvedená pri konkrétnom produkte.</p>
+            <p><strong>3.4.</strong> Ak je predávajúci platiteľom DPH, ceny sú uvádzané spôsobom zodpovedajúcim jeho daňovému režimu.</p>
+            <p><strong>3.5.</strong> Cena nezahŕňa náklady na dopravu, pokiaľ nie je uvedené inak.</p>
+            <p><strong>3.6.</strong> Zmena ceny nemá vplyv na už potvrdenú objednávku.</p>
+
+            <h3>4. Platobné podmienky</h3>
+            <p><strong>4.1.</strong> Kupujúci uhrádza objednávku spôsobom dostupným v objednávkovom procese.</p>
+            <p><strong>4.2.</strong> V e-shope ROVOLT je aktuálne dostupná platba bankovým prevodom.</p>
+            <p><strong>4.3.</strong> Pri platbe bankovým prevodom je objednávka spracovaná po pripísaní príslušnej sumy na účet predávajúceho.</p>
+            <p><strong>4.4.</strong> Daňový doklad alebo faktúra môže byť doručená elektronicky na e-mail kupujúceho.</p>
+
+            <h3>5. Dodanie tovaru</h3>
+            <p><strong>5.1.</strong> Predávajúci dodá tovar na adresu uvedenú kupujúcim v objednávke.</p>
+            <p><strong>5.2.</strong> Produkty dostupné na objednávku sa dodávajú spravidla do 7 až 10 pracovných dní; produkty na sklade spravidla do 3 až 5 pracovných dní. Termín závisí od dostupnosti a bude potvrdený po prijatí objednávky.</p>
+            <p><strong>5.3.</strong> Pri rozdielnych dodacích lehotách môže byť objednávka odoslaná naraz po zabezpečení všetkých položiek.</p>
+            <p><strong>5.4.</strong> Náklady na dopravu sú uvedené v objednávkovom procese.</p>
+            <p><strong>5.5.</strong> Kupujúci je pri prevzatí povinný skontrolovať stav zásielky.</p>
+            <p><strong>5.6.</strong> Viditeľné poškodenie zásielky odporúčame zaznamenať u dopravcu a bezodkladne oznámiť predávajúcemu.</p>
+
+            <h3>6. Odstúpenie od zmluvy spotrebiteľom</h3>
+            <p><strong>6.1.</strong> Spotrebiteľ má pri zmluve uzatvorenej na diaľku právo odstúpiť od zmluvy bez uvedenia dôvodu v zákonnej lehote.</p>
+            <p><strong>6.2.</strong> Základná lehota na odstúpenie je 14 dní odo dňa prevzatia tovaru.</p>
+            <p><strong>6.3.</strong> Odstúpenie možno uplatniť jednoznačným vyhlásením na info@rovolt.sk alebo písomne na adresu predávajúceho.</p>
+            <p><strong>6.4.</strong> Náklady na vrátenie tovaru znáša spotrebiteľ, ak právne predpisy neurčujú inak.</p>
+            <p><strong>6.5.</strong> Spotrebiteľ zodpovedá za zníženie hodnoty tovaru spôsobené zaobchádzaním nad rámec potrebný na zistenie vlastností a funkčnosti.</p>
+            <p><strong>6.6.</strong> Právo odstúpiť sa neuplatní v zákonom ustanovených prípadoch, najmä pri tovare vyrobenom na mieru alebo podľa špecifických požiadaviek.</p>
+
+            <h3>7. Reklamácie a zodpovednosť za vady</h3>
+            <p><strong>7.1.</strong> Predávajúci zodpovedá za to, že predaný tovar má dohodnuté vlastnosti a vlastnosti ustanovené právnymi predpismi.</p>
+            <p><strong>7.2.</strong> Reklamáciu možno uplatniť e-mailom na info@rovolt.sk.</p>
+            <p><strong>7.3.</strong> Pri reklamácii kupujúci uvedie meno, kontaktné údaje, číslo objednávky alebo faktúry, označenie tovaru, opis vady a prípadné fotografie.</p>
+            <p><strong>7.4.</strong> Reklamácia sa nevzťahuje na poškodenie spôsobené nesprávnym používaním, nesprávnou montážou, mechanickým poškodením alebo neodborným zásahom.</p>
+
+            <h3>8. Montáž a odborné elektroinštalačné práce</h3>
+            <p><strong>8.1.</strong> Predaj tovaru nie je automaticky spojený s montážou alebo odbornou elektroinštaláciou.</p>
+            <p><strong>8.2.</strong> Elektrické zariadenia musia byť používané a inštalované podľa určenia, návodu výrobcu a bezpečnostných požiadaviek.</p>
+
+            <h3>9. Ochrana osobných údajov</h3>
+            <p><strong>9.1.</strong> Predávajúci spracúva osobné údaje v rozsahu potrebnom na vybavenie objednávky, plnenie zmluvy, účtovné doklady, reklamácie a zákonné povinnosti.</p>
+            <p><strong>9.2.</strong> Osobné údaje sú spracúvané v súlade s platnými právnymi predpismi.</p>
+
+            <h3>10. Alternatívne riešenie sporov</h3>
+            <p><strong>10.1.</strong> Spotrebiteľ sa môže obrátiť na predávajúceho so žiadosťou o nápravu.</p>
+            <p><strong>10.2.</strong> Ak predávajúci žiadosť zamietne alebo na ňu neodpovie v zákonnej lehote, spotrebiteľ môže využiť alternatívne riešenie spotrebiteľského sporu podľa platných právnych predpisov.</p>
+
+            <h3>11. Záverečné ustanovenia</h3>
+            <p><strong>11.1.</strong> Tieto VOP sa riadia právnym poriadkom Slovenskej republiky.</p>
+            <p><strong>11.2.</strong> Predávajúci je oprávnený VOP meniť alebo dopĺňať; nové znenie sa nevzťahuje na už uzatvorené objednávky.</p>
+            <p><strong>11.3.</strong> Tieto VOP nadobúdajú účinnosť dňa 22. 9. 2026.</p>
+
+            <h3>Vzorový formulár na odstúpenie od zmluvy</h3>
+            <p><strong>Adresát:</strong> ROVOLT, Roman Chlebovec - ROVOLT, MPČĽ 3053/11, 058 01 Poprad, info@rovolt.sk</p>
+            <p>Týmto oznamujem, že odstupujem od zmluvy uzatvorenej na diaľku.</p>
+            <p>Číslo objednávky: ____________________</p>
+            <p>Dátum objednávky: ____________________</p>
+            <p>Dátum prevzatia tovaru: ______________</p>
+            <p>Meno a priezvisko spotrebiteľa: ____________________</p>
+            <p>Adresa spotrebiteľa: ______________________________</p>
+            <p>Číslo účtu / IBAN na vrátenie platby: ______________</p>
+            <p>Dátum: ____________________ &nbsp; Podpis: ____________________</p>
+        </div>
     </div>
 </div>
 
@@ -1521,8 +1690,9 @@
 
         <div class="form-group">
             <label for="adminProductImage">Obrázok produktu</label>
-            <input id="adminProductImage" type="file" accept="image/*">
-            <img id="adminImagePreview" class="admin-image-preview" alt="Náhľad obrázka produktu">
+              <input id="adminProductImage" type="file" accept="image/*" multiple>
+              <small>Vyberte viac obrázkov a označte, ktorý má byť hlavný.</small>
+              <div id="adminImagePreviews" class="admin-image-previews"></div>
         </div>
 
         <div class="form-group full">
@@ -1758,7 +1928,8 @@
         "Inštalačný materiál"
     ];
     let categories = JSON.parse(localStorage.getItem("rovoltCategories")) || defaultCategories;
-    let selectedProductImage = "";
+    let selectedProductImages = [];
+    let selectedProductMainIndex = 0;
 
     products.forEach(product => {
         product.availability = "order";
@@ -1783,24 +1954,47 @@
         localStorage.setItem("rovoltCategories", JSON.stringify(categories));
     }
 
-    document.getElementById("adminProductImage").addEventListener("change", function() {
-        const file = this.files[0];
-        if (!file) return;
+    function readImageFile(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => resolve(reader.result));
+            reader.addEventListener("error", reject);
+            reader.readAsDataURL(file);
+        });
+    }
 
-        if (!file.type.startsWith("image/")) {
-            showToast("Vyberte prosím obrázok.");
+    function renderAdminImagePreviews() {
+        const container = document.getElementById("adminImagePreviews");
+        container.innerHTML = selectedProductImages.map((image, index) => `
+            <label class="admin-image-choice${index === selectedProductMainIndex ? " main" : ""}" title="${index === selectedProductMainIndex ? "Hlavný obrázok" : "Nastaviť ako hlavný"}">
+                <img src="${escapeHTML(image)}" alt="Náhľad obrázka ${index + 1}">
+                <input type="radio" name="adminMainImage" value="${index}"${index === selectedProductMainIndex ? " checked" : ""}>
+            </label>
+        `).join("");
+
+        container.querySelectorAll("input[name='adminMainImage']").forEach(input => {
+            input.addEventListener("change", () => {
+                selectedProductMainIndex = Number(input.value);
+                renderAdminImagePreviews();
+            });
+        });
+    }
+
+    document.getElementById("adminProductImage").addEventListener("change", async function() {
+        const files = Array.from(this.files);
+        if (files.some(file => !file.type.startsWith("image/"))) {
+            showToast("Vyberte iba obrázkové súbory.");
             this.value = "";
             return;
         }
 
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-            selectedProductImage = reader.result;
-            const preview = document.getElementById("adminImagePreview");
-            preview.src = selectedProductImage;
-            preview.classList.add("visible");
-        });
-        reader.readAsDataURL(file);
+        try {
+            selectedProductImages = await Promise.all(files.map(readImageFile));
+            selectedProductMainIndex = 0;
+            renderAdminImagePreviews();
+        } catch (error) {
+            showToast("Obrázky sa nepodarilo načítať.");
+        }
     });
 
     let orders = JSON.parse(localStorage.getItem("rovoltOrders")) || [];
@@ -1837,8 +2031,14 @@
     }
 
     function productImageMarkup(product) {
-        if (product.image) {
-            return `<img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}">`;
+        const images = Array.isArray(product.images) && product.images.length > 0
+            ? product.images
+            : product.image
+                ? [product.image]
+                : [];
+        const mainImage = images[Number(product.mainImageIndex) || 0];
+        if (mainImage) {
+            return `<img src="${escapeHTML(mainImage)}" alt="${escapeHTML(product.name)}">`;
         }
         return escapeHTML(product.icon || "⚡");
     }
@@ -2363,10 +2563,9 @@
     function resetAdminForm() {
         document.getElementById("adminProductForm").reset();
         document.getElementById("adminProductId").value = "";
-        selectedProductImage = "";
-        const preview = document.getElementById("adminImagePreview");
-        preview.removeAttribute("src");
-        preview.classList.remove("visible");
+        selectedProductImages = [];
+        selectedProductMainIndex = 0;
+        renderAdminImagePreviews();
         document.getElementById("adminSaveButton").textContent = "Pridať produkt";
         document.getElementById("adminCancelButton").hidden = true;
     }
@@ -2380,15 +2579,11 @@
         document.getElementById("adminProductCategory").value = product.category;
         document.getElementById("adminProductPrice").value = product.price;
         document.getElementById("adminProductDiscount").value = Number(product.discount) || 0;
-        selectedProductImage = product.image || "";
-        const preview = document.getElementById("adminImagePreview");
-        if (selectedProductImage) {
-            preview.src = selectedProductImage;
-            preview.classList.add("visible");
-        } else {
-            preview.removeAttribute("src");
-            preview.classList.remove("visible");
-        }
+        selectedProductImages = Array.isArray(product.images) && product.images.length > 0
+            ? [...product.images]
+            : product.image ? [product.image] : [];
+        selectedProductMainIndex = Math.min(Number(product.mainImageIndex) || 0, Math.max(selectedProductImages.length - 1, 0));
+        renderAdminImagePreviews();
         document.getElementById("adminProductDescription").value = product.description;
         document.getElementById("adminProductAvailability").value = getAvailability(product);
         document.getElementById("adminSaveButton").textContent = "Uložiť zmeny";
@@ -2423,7 +2618,8 @@
             category: document.getElementById("adminProductCategory").value,
             price: Number(document.getElementById("adminProductPrice").value),
             discount: Number(document.getElementById("adminProductDiscount").value) || 0,
-            image: selectedProductImage,
+            images: [...selectedProductImages],
+            mainImageIndex: selectedProductImages.length > 0 ? selectedProductMainIndex : 0,
             icon: "⚡",
             description: document.getElementById("adminProductDescription").value.trim(),
             availability: document.getElementById("adminProductAvailability").value
@@ -2561,6 +2757,13 @@
 
     function closeTerms() {
         document.getElementById("termsOverlay").classList.remove("open");
+    }
+
+    function toggleFullTerms() {
+        const fullTerms = document.getElementById("fullTerms");
+        const button = document.getElementById("termsExpandButton");
+        const isOpen = fullTerms.classList.toggle("open");
+        button.textContent = isOpen ? "Skryť úplné VOP" : "Zobraziť úplné VOP";
     }
 
     function toggleAccountMode() {

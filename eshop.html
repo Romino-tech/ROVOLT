@@ -1517,7 +1517,7 @@
             <button class="account-close" type="button" onclick="closeAccount()" aria-label="Zavrieť prihlasovanie">×</button>
         </div>
 
-        <form class="account-form" id="accountForm">
+        <form class="account-form" id="accountForm" method="POST">
             <label for="accountEmail">E-mail</label>
             <input id="accountEmail" name="email" type="email" autocomplete="email" required>
 
@@ -1658,14 +1658,14 @@
 
     <div class="admin-category-manager">
         <h3>Kategórie</h3>
-        <form class="admin-category-form" id="adminCategoryForm">
+        <form class="admin-category-form" id="adminCategoryForm" method="POST">
             <input id="adminCategoryName" type="text" placeholder="Názov novej kategórie" required>
             <button class="admin-save" type="submit">Pridať kategóriu</button>
         </form>
         <div class="admin-category-list" id="adminCategoryList"></div>
     </div>
 
-    <form class="admin-form" id="adminProductForm">
+    <form class="admin-form" id="adminProductForm" method="POST">
         <input type="hidden" id="adminProductId">
 
         <div class="form-group">
@@ -1753,8 +1753,8 @@
 <script>
 
     const auth0Config = {
-        domain: "dev-e55qme7wm6oyfonx.us.auth0.com",
-        clientId: "czFqnHPZfDqN3hetDJatm1TE1JG0land"
+        domain: "dev-7jkvycawgbpzi3km.us.auth0.com",
+        clientId: "lRtNjB932aKKFq0o4qztRnowZpndrRfH"
     };
     const auth0ClientPromise = auth0Config.domain && auth0Config.clientId && window.auth0
         ? window.auth0.createAuth0Client({
@@ -2723,6 +2723,10 @@
         if (currentUser) {
             const shouldLogout = confirm(`Ste prihlásený ako ${currentUser.email}. Chcete sa odhlásiť?`);
             if (shouldLogout) {
+                currentUser = null;
+                localStorage.removeItem("rovoltSession");
+                updateAccountButton();
+
                 if (auth0ClientPromise) {
                     const client = await auth0ClientPromise;
                     await client.logout({
@@ -2733,9 +2737,6 @@
                     return;
                 }
 
-                currentUser = null;
-                localStorage.removeItem("rovoltSession");
-                updateAccountButton();
                 showToast("Boli ste odhlásený.");
             }
             return;

@@ -16,10 +16,11 @@
     function assertAdminToken(token) {
         if (!token) throw new Error("Prihláste sa cez Auth0 účet administrátora pre úpravu katalógu.");
         try {
-            const payload = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+            const encodedPayload = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+            const payload = encodedPayload.padEnd(Math.ceil(encodedPayload.length / 4) * 4, "=");
             const claims = JSON.parse(atob(payload));
             if (claims.role !== "authenticated" || claims[adminClaim]?.role !== "admin") {
-                throw new Error("Auth0 token nemá nastavené oprávnenie administrátora pre Supabase.");
+                throw new Error("Chýba Auth0 admin claim. Nasadiť Post Login Action a potom sa odhlásiť a prihlásiť znova.");
             }
         } catch (error) {
             if (error instanceof SyntaxError || error instanceof TypeError) {

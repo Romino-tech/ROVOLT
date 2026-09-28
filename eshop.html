@@ -1536,7 +1536,7 @@
         <p class="account-switch" id="accountSwitchText">Nemáte účet?
             <button type="button" onclick="toggleAccountMode()">Zaregistrovať sa</button>
         </p>
-        <p class="account-note">Demo prihlásenie pre statickú stránku. Pre reálnych používateľov treba doplniť bezpečný backend a OAuth nastavenie.</p>
+        <p class="account-note">Správa katalógu vyžaduje prihlásenie administrátora cez Auth0 Google alebo Apple. Demo prihlásenie slúži iba pre zákaznícky účet.</p>
     </div>
 </div>
 
@@ -2818,6 +2818,17 @@
 
     async function openAccount() {
         if (currentUser) {
+            if (auth0ClientPromise) {
+                const client = await auth0ClientPromise;
+                if (!(await client.isAuthenticated())) {
+                    currentUser = null;
+                    localStorage.removeItem("rovoltSession");
+                    updateAccountButton();
+                }
+            }
+        }
+
+        if (currentUser) {
             const shouldLogout = confirm(`Ste prihlásený ako ${currentUser.email}. Chcete sa odhlásiť?`);
             if (shouldLogout) {
                 currentUser = null;
@@ -2921,6 +2932,9 @@
             currentUser = { email: user.email, isAdmin };
             localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
             updateAccountButton();
+            if (user.email.toLowerCase() === adminAccount.email && !isAdmin) {
+                showToast("Auth0 admin oprávnenie chýba. Nasadiť Post Login Action a prihlásiť sa znova.");
+            }
             await loadSupabaseCatalog(true);
         } catch (error) {
             showToast("Auth0 prihlásenie sa nepodarilo obnoviť.");

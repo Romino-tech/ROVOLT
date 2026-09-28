@@ -2929,7 +2929,7 @@
         }
     }
 
-    async function startAuth0Login() {
+    async function startAuth0Login(emailHint = "") {
         if (!auth0ClientPromise) {
             showToast("Auth0 OAuth zatiaľ nie je nakonfigurované.");
             return;
@@ -2937,7 +2937,12 @@
 
         try {
             const client = await auth0ClientPromise;
-            await client.loginWithRedirect();
+            await client.loginWithRedirect({
+                authorizationParams: {
+                    connection: auth0Config.databaseConnection,
+                    ...(emailHint ? { login_hint: emailHint } : {})
+                }
+            });
         } catch (error) {
             showToast("Prihlásenie cez Auth0 sa nepodarilo spustiť.");
         }
@@ -3023,6 +3028,11 @@
         const password = document.getElementById("accountPassword").value;
         const message = document.getElementById("accountMessage");
         const savedUser = JSON.parse(localStorage.getItem("rovoltUser"));
+
+        if (accountMode === "login" && email === adminAccount.email) {
+            startAuth0Login(email);
+            return;
+        }
 
         if (accountMode === "register") {
             if (email === adminAccount.email) {

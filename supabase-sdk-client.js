@@ -1,7 +1,7 @@
 (function() {
     const projectUrl = "https://yswulzliyygeehfbgarr.supabase.co";
     const publishableKey = "sb_publishable_p4Y2liphbtLQXlTkXONgVQ_TfmvfAf8";
-    const adminClaim = "https://rovolt.sk/app_metadata";
+    const adminEmail = "info@rovolt.sk";
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     let accessTokenProvider = async () => null;
     const client = window.supabase.createClient(projectUrl, publishableKey, {
@@ -19,8 +19,11 @@
             const encodedPayload = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
             const payload = encodedPayload.padEnd(Math.ceil(encodedPayload.length / 4) * 4, "=");
             const claims = JSON.parse(atob(payload));
-            if (claims.role !== "authenticated" || claims[adminClaim]?.role !== "admin") {
-                throw new Error("Chýba Auth0 admin claim. Nasadiť Post Login Action a potom sa odhlásiť a prihlásiť znova.");
+            if (claims.role !== "authenticated") {
+                throw new Error("Auth0 token nemá rolu authenticated. Skontrolujte a nasaďte Auth0 Post Login Action.");
+            }
+            if (claims.email?.toLowerCase() !== adminEmail || claims.email_verified !== true) {
+                throw new Error("Administrátorské úpravy povoľuje iba overený Auth0 účet info@rovolt.sk.");
             }
         } catch (error) {
             if (error instanceof SyntaxError || error instanceof TypeError) {

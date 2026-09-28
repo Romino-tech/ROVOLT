@@ -1990,29 +1990,39 @@
     }
 
     async function loadSupabaseCatalog(importLegacyIfEmpty = false) {
+        let catalog;
         try {
-            let catalog = await window.rovoltSupabase.loadCatalog();
-            if (importLegacyIfEmpty && currentUser?.isAdmin && catalog.products.length === 0 && catalog.categories.length === 0) {
+            catalog = await window.rovoltSupabase.loadCatalog();
+        } catch (error) {
+            console.error("Supabase catalog read failed:", error);
+            showToast(`Čítanie katalógu zlyhalo: ${error.message}`);
+            return;
+        }
+
+        if (importLegacyIfEmpty && currentUser?.isAdmin && catalog.products.length === 0 && products.length > 0) {
+            try {
                 const token = await getSupabaseAdminToken();
                 await window.rovoltSupabase.importLegacyCatalog(categories, products, token);
                 catalog = await window.rovoltSupabase.loadCatalog();
+            } catch (error) {
+                console.error("Supabase legacy catalog import failed:", error);
+                showToast(`Katalóg sa načítal, ale import produktov zlyhal: ${error.message}`);
+                return;
             }
-            supabaseCategories = catalog.categories;
-            if (catalog.categories.length > 0) {
-                categories = catalog.categories.map(category => category.name);
-                saveCategories();
-            }
-            if (catalog.products.length > 0) {
-                products = catalog.products;
-                saveProducts();
-            }
-            renderCategories();
-            renderProducts();
-            updateAccountButton();
-        } catch (error) {
-            console.error("Supabase catalog load failed:", error);
-            showToast("Databázu sa nepodarilo načítať; zobrazujeme uložený katalóg.");
         }
+
+        supabaseCategories = catalog.categories;
+        if (catalog.categories.length > 0) {
+            categories = catalog.categories.map(category => category.name);
+            saveCategories();
+        }
+        if (catalog.products.length > 0) {
+            products = catalog.products;
+            saveProducts();
+        }
+        renderCategories();
+        renderProducts();
+        updateAccountButton();
     }
 
     function readImageFile(file) {
@@ -3008,7 +3018,8 @@
             const [user, claims] = await Promise.all([client.getUser(), client.getIdTokenClaims()]);
             if (!user?.email) return;
 
-            const isAdmin = claims?.["https://rovolt.sk/app_metadata"]?.role === "admin";
+            const isAdmin = claims?.email?.toLowerCase() === adminAccount.email
+                && claims?.email_verified === true;
             currentUser = { email: user.email, isAdmin };
             localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
             updateAccountButton();

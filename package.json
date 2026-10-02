@@ -1,6 +1,4 @@
 {
-  "dependencies": {
-    "@supabase/server": "^1.8.1",
-    "@supabase/supabase-js": "^2.117.2"
-  }
+  "name": "rovolt",
+  "private": true
 }

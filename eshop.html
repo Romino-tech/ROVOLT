@@ -110,6 +110,61 @@
             background: rgba(255,255,255,.1);
         }
 
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(2, 6, 23, .72);
+        }
+
+        .auth-overlay.open {
+            display: flex;
+        }
+
+        .auth-dialog {
+            width: min(440px, 100%);
+            overflow: hidden;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 20px 55px rgba(0,0,0,.3);
+        }
+
+        .auth-dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 18px 0;
+            color: #0f172a;
+        }
+
+        .auth-dialog-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .auth-dialog-frame {
+            display: block;
+            width: 100%;
+            height: 330px;
+            border: 0;
+        }
+
+        .auth-dialog-frame[hidden] {
+            display: none;
+        }
+
+        .auth-setup-note {
+            margin: 16px 18px 22px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
         .logo {
             display: inline-flex;
             align-items: center;
@@ -295,6 +350,20 @@
             background: var(--orange);
             border-color: var(--orange);
             color: white;
+        }
+
+        #catalogStatus {
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        #catalogStatus button {
+            margin-left: 8px;
+            padding: 6px 10px;
+            border: 1px solid currentColor;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
         }
 
         /* PRODUCTS */
@@ -1356,7 +1425,7 @@
         </a>
 
         <div class="shop-nav-actions">
-            <button class="account-button" id="accountButton" type="button" onclick="openAccount()">
+            <button class="account-button" id="accountButton" type="button" onclick="openAuth()">
                 👤 Prihlásenie
             </button>
             <button class="cart-button" onclick="openCart()">
@@ -1393,11 +1462,23 @@
 
     <div class="categories" id="categoryButtons"></div>
 
+    <p id="catalogStatus" role="status" aria-live="polite">Načítavam produkty z Google tabuľky…</p>
     <div class="products" id="products"></div>
 
 </main>
 
 <div id="toast" class="toast" aria-live="polite">Produkt bol pridaný do košíka</div>
+
+<div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authDialogTitle" onclick="if (event.target === this) closeAuth()">
+    <section class="auth-dialog">
+        <div class="auth-dialog-header">
+            <h2 id="authDialogTitle">ROVOLT účet</h2>
+            <button class="account-close" type="button" onclick="closeAuth()" aria-label="Zavrieť prihlásenie">×</button>
+        </div>
+        <p class="auth-setup-note" id="authSetupNote" hidden></p>
+        <iframe class="auth-dialog-frame" id="googleAuthFrame" title="Prihlásenie do ROVOLT účtu" hidden></iframe>
+    </section>
+</div>
 
 <!-- CHECKOUT -->
 
@@ -1516,44 +1597,6 @@
 
 </div>
 
-<!-- ACCOUNT -->
-
-<div class="account-overlay" id="accountOverlay" role="dialog" aria-modal="true" aria-labelledby="accountTitle" onclick="if (event.target === this) closeAccount()">
-    <div class="account-modal">
-        <div class="account-modal-header">
-            <div>
-                <h2 id="accountTitle">Prihlásenie</h2>
-                <p class="account-modal-subtitle" id="accountSubtitle">Prihláste sa do svojho ROVOLT účtu.</p>
-
-            </div>
-            <button class="account-close" type="button" onclick="closeAccount()" aria-label="Zavrieť prihlasovanie">×</button>
-        </div>
-
-        <form class="account-form" id="accountForm" method="POST">
-            <label for="accountEmail">E-mail</label>
-            <input id="accountEmail" name="email" type="email" autocomplete="email" required>
-
-            <label for="accountPassword">Heslo</label>
-            <input id="accountPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
-            <button class="account-reset" id="forgotPasswordButton" type="button" onclick="requestPasswordReset()">Zabudli ste heslo?</button>
-
-            <div class="account-message" id="accountMessage" role="alert"></div>
-            <button class="account-submit" id="accountSubmit" type="submit">Prihlásiť sa</button>
-        </form>
-
-        <div class="account-socials">
-            <button class="account-social" type="button" onclick="startAuth0Login()">E-mail cez Auth0</button>
-            <button class="account-social" type="button" onclick="startSocialLogin('Google')">G  Google</button>
-            <button class="account-social" type="button" onclick="startSocialLogin('Apple')">  Apple</button>
-        </div>
-
-        <p class="account-switch" id="accountSwitchText">Nemáte účet?
-            <button type="button" onclick="toggleAccountMode()">Zaregistrovať sa</button>
-        </p>
-        <p class="account-note">Správa katalógu vyžaduje prihlásenie administrátora cez Auth0 Google alebo Apple. Demo prihlásenie slúži iba pre zákaznícky účet.</p>
-    </div>
-</div>
-
 <div class="account-overlay" id="termsOverlay" role="dialog" aria-modal="true" aria-labelledby="termsTitle" onclick="if (event.target === this) closeTerms()">
     <div class="account-modal terms-modal">
         <div class="account-modal-header">
@@ -1662,87 +1705,6 @@
     </div>
 </div>
 
-<section class="admin-panel" id="adminPanel" aria-labelledby="adminPanelTitle">
-    <div class="admin-panel-header">
-        <div>
-            <h2 id="adminPanelTitle">Administrácia produktov</h2>
-            <p>Pridávajte produkty alebo upravujte ich názov, popis, cenu a dostupnosť.</p>
-        </div>
-    </div>
-
-    <div class="admin-category-manager">
-        <h3>Kategórie</h3>
-        <form class="admin-category-form" id="adminCategoryForm" method="POST">
-            <input id="adminCategoryName" type="text" placeholder="Názov novej kategórie" required>
-            <button class="admin-save" type="submit">Pridať kategóriu</button>
-        </form>
-        <div class="admin-category-list" id="adminCategoryList"></div>
-    </div>
-
-    <form class="admin-form" id="adminProductForm" method="POST">
-        <input type="hidden" id="adminProductId">
-
-        <div class="form-group">
-            <label for="adminProductName">Názov produktu *</label>
-            <input id="adminProductName" type="text" required>
-        </div>
-
-        <div class="form-group">
-            <label for="adminProductCategory">Kategória *</label>
-            <select id="adminProductCategory" required></select>
-        </div>
-
-        <div class="form-group">
-            <label for="adminProductPrice">Cena s DPH (€) *</label>
-            <input id="adminProductPrice" type="number" min="0" step="0.01" required>
-        </div>
-
-        <div class="form-group">
-            <label for="adminProductDiscount">Zľava (%)</label>
-            <input id="adminProductDiscount" type="number" min="0" max="100" step="1" value="0">
-        </div>
-
-        <div class="form-group">
-            <label for="adminProductImage">Obrázok produktu</label>
-              <input id="adminProductImage" type="file" accept="image/*" multiple>
-              <small>Vyberte viac obrázkov a označte, ktorý má byť hlavný.</small>
-              <div id="adminImagePreviews" class="admin-image-previews"></div>
-        </div>
-
-        <div class="form-group full">
-            <label for="adminProductDescription">Popis *</label>
-            <textarea id="adminProductDescription" required></textarea>
-        </div>
-
-        <div class="form-group full">
-            <label for="adminProductAvailability">Dostupnosť produktu *</label>
-            <select id="adminProductAvailability" required>
-                <option value="unavailable">Nedostupné</option>
-                <option value="order">Dostupné na objednávku</option>
-                <option value="stock">Na sklade</option>
-            </select>
-        </div>
-
-        <div class="admin-form-actions full">
-            <button class="admin-save" type="submit" id="adminSaveButton">Pridať produkt</button>
-            <button class="admin-cancel" type="button" id="adminCancelButton" onclick="resetAdminForm()" hidden>Zrušiť úpravu</button>
-        </div>
-    </form>
-
-    <div class="admin-products" id="adminProducts"></div>
-
-    <div class="admin-category-manager">
-        <h3>Objednávky zákazníkov</h3>
-        <div class="orders-list" id="adminOrders"></div>
-    </div>
-</section>
-
-<section class="orders-panel" id="ordersPanel" aria-labelledby="ordersPanelTitle">
-    <h2 id="ordersPanelTitle">Moje objednávky</h2>
-    <p class="account-modal-subtitle">História objednávok a ich aktuálny stav.</p>
-    <div class="orders-list" id="customerOrders"></div>
-</section>
-
 <footer>
 
     <div class="footer-inner">
@@ -1762,34 +1724,16 @@
 
 </footer>
 
-<script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
 <script src="script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="supabase-sdk-client.js"></script>
+<script src="google-sheets-catalog.js"></script>
+<script src="google-sheets-auth.js"></script>
 <script>
-
-    const auth0Config = {
-        domain: "dev-7jkvycawgbpzi3km.us.auth0.com",
-        clientId: "lRtNjB932aKKFq0o4qztRnowZpndrRfH",
-        databaseConnection: "Username-Password-Authentication"
-    };
-    const auth0ClientPromise = auth0Config.domain && auth0Config.clientId && window.auth0
-        ? window.auth0.createAuth0Client({
-            domain: auth0Config.domain,
-            clientId: auth0Config.clientId,
-            authorizationParams: {
-                redirect_uri: window.location.origin + window.location.pathname
-            }
-        })
-        : null;
-
-    window.rovoltSupabase.configureAccessToken(getSupabaseAdminToken);
 
     /* =========================
        PRODUKTY
        ========================= */
 
-    let products = JSON.parse(localStorage.getItem("rovoltProducts")) || [
+    let products = []; /*
 
         {
             id: 1,
@@ -1935,29 +1879,10 @@
             icon: "🔧"
         }
 
-    ];
-
-    const defaultCategories = [
-        "Stavebné rozvádzače",
-        "Bytové rozvádzače",
-        "Ističe",
-        "Prúdové chrániče",
-        "Ističochrániče",
-        "Prepäťové ochrany",
-        "Inštalačný materiál"
-    ];
-    let categories = JSON.parse(localStorage.getItem("rovoltCategories")) || defaultCategories;
-    let supabaseCategories = [];
-    let selectedProductImages = [];
-    let selectedProductMainIndex = 0;
-
-    products.forEach(product => {
-        if (!product.availability) {
-            product.availability = product.available === false ? "unavailable" : "order";
-        }
-        delete product.available;
-    });
-    localStorage.setItem("rovoltProducts", JSON.stringify(products));
+    ]; */
+    let categories = [];
+    localStorage.removeItem("rovoltProducts");
+    localStorage.removeItem("rovoltCategories");
 
 
     /* =========================
@@ -1967,143 +1892,6 @@
     let cart = JSON.parse(localStorage.getItem("rovoltCart")) || [];
 
     let currentCategory = "Všetky";
-
-    function saveProducts() {
-        try {
-            localStorage.setItem("rovoltProducts", JSON.stringify(products));
-            return true;
-        } catch (error) {
-            showToast("Uloženie zlyhalo. Obrázky sú príliš veľké; zmenšite ich a skúste znova.");
-            return false;
-        }
-    }
-
-    function saveCategories() {
-        localStorage.setItem("rovoltCategories", JSON.stringify(categories));
-    }
-
-    async function getSupabaseAdminToken() {
-        if (!auth0ClientPromise) return null;
-        const client = await auth0ClientPromise;
-        if (!(await client.isAuthenticated())) return null;
-        return (await client.getIdTokenClaims())?.__raw || null;
-    }
-
-    async function loadSupabaseCatalog(importLegacyIfEmpty = false) {
-        let catalog;
-        try {
-            catalog = await window.rovoltSupabase.loadCatalog();
-        } catch (error) {
-            console.error("Supabase catalog read failed:", error);
-            showToast(`Čítanie katalógu zlyhalo: ${error.message}`);
-            return;
-        }
-
-        if (importLegacyIfEmpty && currentUser?.isAdmin && catalog.products.length === 0 && products.length > 0) {
-            try {
-                const token = await getSupabaseAdminToken();
-                await window.rovoltSupabase.importLegacyCatalog(categories, products, token);
-                catalog = await window.rovoltSupabase.loadCatalog();
-            } catch (error) {
-                console.error("Supabase legacy catalog import failed:", error);
-                showToast(`Katalóg sa načítal, ale import produktov zlyhal: ${error.message}`);
-                return;
-            }
-        }
-
-        supabaseCategories = catalog.categories;
-        if (catalog.categories.length > 0) {
-            categories = catalog.categories.map(category => category.name);
-            saveCategories();
-        }
-        if (catalog.products.length > 0) {
-            products = catalog.products;
-            saveProducts();
-        }
-        renderCategories();
-        renderProducts();
-        updateAccountButton();
-    }
-
-    function readImageFile(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.addEventListener("load", () => {
-                const image = new Image();
-                image.addEventListener("load", () => {
-                    const maxDimension = 1200;
-                    const scale = Math.min(1, maxDimension / Math.max(image.naturalWidth, image.naturalHeight));
-                    const canvas = document.createElement("canvas");
-                    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
-                    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
-                    canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
-                    resolve(canvas.toDataURL("image/webp", 0.78));
-                });
-                image.addEventListener("error", reject);
-                image.src = reader.result;
-            });
-            reader.addEventListener("error", reject);
-            reader.readAsDataURL(file);
-        });
-    }
-
-    function renderAdminImagePreviews() {
-        const container = document.getElementById("adminImagePreviews");
-        container.innerHTML = selectedProductImages.map((image, index) => `
-            <label class="admin-image-choice${index === selectedProductMainIndex ? " main" : ""}" title="${index === selectedProductMainIndex ? "Hlavný obrázok" : "Nastaviť ako hlavný"}">
-                <img src="${escapeHTML(image)}" alt="Náhľad obrázka ${index + 1}">
-                <input type="radio" name="adminMainImage" value="${index}"${index === selectedProductMainIndex ? " checked" : ""}>
-            </label>
-        `).join("");
-
-        container.querySelectorAll("input[name='adminMainImage']").forEach(input => {
-            input.addEventListener("change", () => {
-                selectedProductMainIndex = Number(input.value);
-                renderAdminImagePreviews();
-            });
-        });
-    }
-
-    document.getElementById("adminProductImage").addEventListener("change", async function() {
-        const files = Array.from(this.files);
-        if (files.some(file => !file.type.startsWith("image/"))) {
-            showToast("Vyberte iba obrázkové súbory.");
-            this.value = "";
-            return;
-        }
-
-        try {
-            selectedProductImages = await Promise.all(files.map(readImageFile));
-            selectedProductMainIndex = 0;
-            renderAdminImagePreviews();
-        } catch (error) {
-            showToast("Obrázky sa nepodarilo načítať.");
-        }
-    });
-
-    let orders = JSON.parse(localStorage.getItem("rovoltOrders")) || [];
-    const orderStatuses = [
-        "Prijatá",
-        "Spracováva sa",
-        "Odoslaná",
-        "Dokončená",
-        "Zrušená"
-    ];
-
-    function saveOrders() {
-        localStorage.setItem("rovoltOrders", JSON.stringify(orders));
-    }
-
-    function getOrderStatus(order) {
-        return orderStatuses.includes(order.status) ? order.status : "Prijatá";
-    }
-
-    function formatOrderDate(value) {
-        return new Date(value).toLocaleString("sk-SK", {
-            dateStyle: "medium",
-            timeStyle: "short"
-        });
-    }
 
     function escapeHTML(value) {
         return String(value)
@@ -2231,7 +2019,7 @@
                     <div class="cart-item-top">
 
                         <div class="cart-item-name">
-                            ${product.name}
+                            ${escapeHTML(product.name)}
                         </div>
 
                         <div class="cart-item-price">
@@ -2242,19 +2030,19 @@
 
                     <div class="quantity">
 
-                        <button onclick="changeQuantity(${item.id}, -1)">
+                        <button onclick="changeQuantity('${escapeHTML(item.id)}', -1)">
                             −
                         </button>
 
                         <span>${item.quantity} ks</span>
 
-                        <button onclick="changeQuantity(${item.id}, 1)">
+                        <button onclick="changeQuantity('${escapeHTML(item.id)}', 1)">
                             +
                         </button>
 
                         <button
                             class="remove"
-                            onclick="changeQuantity(${item.id}, -${item.quantity})">
+                            onclick="changeQuantity('${escapeHTML(item.id)}', -${item.quantity})">
                             Odstrániť
                         </button>
 
@@ -2348,7 +2136,9 @@
         if (filtered.length === 0) {
 
             container.innerHTML =
-                "<p>Žiadny produkt nezodpovedá vyhľadávaniu.</p>";
+                products.length === 0
+                    ? "<p>V tabuľke nie sú dostupné žiadne produkty.</p>"
+                    : "<p>Žiadny produkt nezodpovedá vyhľadávaniu.</p>";
 
             return;
 
@@ -2436,74 +2226,37 @@
 
     }
 
-    function renderCustomerOrders() {
-        const container = document.getElementById("customerOrders");
-        const panel = document.getElementById("ordersPanel");
+    async function loadGoogleSheetCatalog() {
+        const status = document.getElementById("catalogStatus");
+        status.textContent = "Načítavam produkty z Google tabuľky…";
 
-        if (!currentUser || currentUser.isAdmin) {
-            panel.classList.remove("open");
-            container.innerHTML = "";
-            return;
+        try {
+            products = await window.rovoltGoogleSheet.loadProducts();
+            categories = [...new Set(products.map(product => product.category))];
+            cart = cart.flatMap(item => {
+                const product = products.find(candidate => String(candidate.id) === String(item.id));
+                return product && isProductPurchasable(product)
+                    ? [{ ...item, id: product.id }]
+                    : [];
+            });
+            saveCart();
+            status.textContent = "";
+            renderCategories();
+            renderProducts();
+            updateCart();
+        } catch (error) {
+            console.error("Google Sheets catalog load failed:", error);
+            status.textContent = `Produkty sa nepodarilo načítať: ${error.message} `;
+            const retryButton = document.createElement("button");
+            retryButton.type = "button";
+            retryButton.textContent = "Skúsiť znova";
+            retryButton.addEventListener("click", loadGoogleSheetCatalog);
+            status.appendChild(retryButton);
+            products = [];
+            categories = [];
+            renderCategories();
+            renderProducts();
         }
-
-        panel.classList.add("open");
-        const customerOrders = orders.filter(order => order.customerEmail === currentUser.email);
-
-        if (customerOrders.length === 0) {
-            container.innerHTML = "<p>Zatiaľ nemáte žiadne objednávky.</p>";
-            return;
-        }
-
-        container.innerHTML = customerOrders.slice().reverse().map(order => `
-            <article class="order-card">
-                <div class="order-card-header">
-                    <strong>Objednávka #${escapeHTML(order.id)}</strong>
-                    <span class="order-status-badge">${escapeHTML(getOrderStatus(order))}</span>
-                </div>
-                <p>${escapeHTML(formatOrderDate(order.createdAt))} · ${formatPrice(order.total)}</p>
-                <p>${escapeHTML(order.items.map(item => `${item.name} (${item.quantity} ks)`).join(", "))}</p>
-            </article>
-        `).join("");
-    }
-
-    function renderAdminOrders() {
-        const container = document.getElementById("adminOrders");
-
-        if (!currentUser || !currentUser.isAdmin) {
-            container.innerHTML = "";
-            return;
-        }
-
-        if (orders.length === 0) {
-            container.innerHTML = "<p>Zatiaľ nebola vytvorená žiadna objednávka.</p>";
-            return;
-        }
-
-        container.innerHTML = orders.slice().reverse().map(order => `
-            <div class="admin-order-row">
-                <div>
-                    <strong>#${escapeHTML(order.id)} · ${escapeHTML(order.customerEmail)}</strong>
-                    <p>${escapeHTML(formatOrderDate(order.createdAt))} · ${formatPrice(order.total)}</p>
-                    <p>${escapeHTML(order.items.map(item => `${item.name} (${item.quantity} ks)`).join(", "))}</p>
-                </div>
-                <select aria-label="Stav objednávky ${escapeHTML(order.id)}" onchange="changeOrderStatus('${escapeHTML(order.id)}', this.value)">
-                    ${orderStatuses.map(status => `<option value="${escapeHTML(status)}"${getOrderStatus(order) === status ? " selected" : ""}>${escapeHTML(status)}</option>`).join("")}
-                </select>
-            </div>
-        `).join("");
-    }
-
-    function changeOrderStatus(orderId, status) {
-        if (!currentUser || !currentUser.isAdmin || !orderStatuses.includes(status)) return;
-
-        const order = orders.find(item => item.id === orderId);
-        if (!order) return;
-
-        order.status = status;
-        saveOrders();
-        renderAdminOrders();
-        renderCustomerOrders();
-        showToast("Stav objednávky bol upravený.");
     }
 
     function renderCategories() {
@@ -2531,247 +2284,6 @@
         });
     }
 
-    function renderAdminCategories() {
-        const container = document.getElementById("adminCategoryList");
-
-        if (!currentUser || !currentUser.isAdmin) {
-            container.innerHTML = "";
-            return;
-        }
-
-        container.innerHTML = categories.map(category => `
-            <span class="admin-category-item">
-                ${escapeHTML(category)}
-                <button class="admin-category-remove" type="button" title="Odstrániť kategóriu" data-category="${escapeHTML(category)}">×</button>
-            </span>
-        `).join("");
-
-        container.querySelectorAll(".admin-category-remove").forEach(button => {
-            button.addEventListener("click", () => deleteAdminCategory(button.dataset.category));
-        });
-    }
-
-    function renderAdminCategoryOptions(selectedCategory) {
-        const select = document.getElementById("adminProductCategory");
-        const categoryToSelect = categories.includes(selectedCategory) ? selectedCategory : categories[0];
-        select.innerHTML = categories.map(category => `<option value="${escapeHTML(category)}">${escapeHTML(category)}</option>`).join("");
-        if (categoryToSelect) select.value = categoryToSelect;
-    }
-
-    async function deleteAdminCategory(category) {
-        if (!currentUser || !currentUser.isAdmin) return;
-
-        if (products.some(product => product.category === category)) {
-            showToast("Kategóriu nie je možné odstrániť, pretože obsahuje produkty.");
-            return;
-        }
-
-        if (categories.length === 1 || !confirm(`Odstrániť kategóriu „${category}“?`)) return;
-
-        const remoteCategory = supabaseCategories.find(item => item.name === category);
-        if (!remoteCategory) {
-            showToast("Táto kategória ešte nie je uložená v databáze.");
-            return;
-        }
-
-        try {
-            const token = await getSupabaseAdminToken();
-            await window.rovoltSupabase.deleteCategory(remoteCategory.id, token);
-            const catalog = await window.rovoltSupabase.loadCatalog();
-            supabaseCategories = catalog.categories;
-            categories = catalog.categories.map(item => item.name);
-            products = catalog.products;
-            saveCategories();
-            saveProducts();
-            renderCategories();
-            renderAdminCategories();
-            renderAdminCategoryOptions();
-            renderProducts();
-            showToast("Kategória bola odstránená.");
-        } catch (error) {
-            showToast(error.message || "Kategóriu sa nepodarilo odstrániť z databázy.");
-        }
-    }
-
-    document.getElementById("adminCategoryForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
-        if (!currentUser || !currentUser.isAdmin) return;
-
-        const input = document.getElementById("adminCategoryName");
-        const category = input.value.trim();
-
-        if (!category) return;
-        if (categories.some(item => item.toLowerCase() === category.toLowerCase())) {
-            showToast("Takáto kategória už existuje.");
-            return;
-        }
-
-        try {
-            const token = await getSupabaseAdminToken();
-            await window.rovoltSupabase.saveCategory(category, token);
-            const catalog = await window.rovoltSupabase.loadCatalog();
-            supabaseCategories = catalog.categories;
-            categories = catalog.categories.map(item => item.name);
-            products = catalog.products.length > 0 ? catalog.products : products;
-            saveCategories();
-            renderCategories();
-            renderAdminCategories();
-            renderAdminCategoryOptions(category);
-            renderProducts();
-            input.value = "";
-            showToast("Kategória bola pridaná.");
-        } catch (error) {
-            showToast(error.message || "Kategóriu sa nepodarilo uložiť do databázy.");
-        }
-    });
-
-
-    /* =========================
-       ADMINISTRACIA PRODUKTOV
-       ========================= */
-
-    function renderAdminProducts() {
-        const container = document.getElementById("adminProducts");
-
-        if (!currentUser || !currentUser.isAdmin) {
-            container.innerHTML = "";
-            return;
-        }
-
-        const groupedProducts = categories.map(category => ({
-            category,
-            products: products.filter(product => product.category === category)
-        }));
-        const uncategorized = products.filter(product => !categories.includes(product.category));
-
-        if (uncategorized.length > 0) {
-            groupedProducts.push({ category: "Ostatné", products: uncategorized });
-        }
-
-        container.innerHTML = groupedProducts.map((group, index) => `
-            <details class="admin-product-group"${index === 0 ? " open" : ""}>
-                <summary>${escapeHTML(group.category)} (${group.products.length})</summary>
-                <div class="admin-product-group-content">
-                    ${group.products.length === 0 ? "<p>V tejto kategórii zatiaľ nie sú žiadne produkty.</p>" : group.products.map(product => `
-                        <div class="admin-product-row">
-                            <div>
-                                <strong>${escapeHTML(product.name)}</strong>
-                                <small>${formatPrice(getDiscountedPrice(product))}${Number(product.discount) > 0 ? ` · zľava ${Number(product.discount)} %` : ""}</small>
-                            </div>
-                            <span class="admin-available">${getAvailabilityLabel(product)}</span>
-                            <button class="admin-edit" type="button" onclick="editAdminProduct('${escapeHTML(product.id)}')">Upraviť</button>
-                            <button class="admin-delete" type="button" onclick="deleteAdminProduct('${escapeHTML(product.id)}')">Odstrániť</button>
-                        </div>
-                    `).join("")}
-                </div>
-            </details>
-        `).join("");
-        renderAdminCategories();
-        renderAdminCategoryOptions();
-    }
-
-    function resetAdminForm() {
-        document.getElementById("adminProductForm").reset();
-        document.getElementById("adminProductId").value = "";
-        selectedProductImages = [];
-        selectedProductMainIndex = 0;
-        renderAdminImagePreviews();
-        document.getElementById("adminSaveButton").textContent = "Pridať produkt";
-        document.getElementById("adminCancelButton").hidden = true;
-    }
-
-    function editAdminProduct(id) {
-        const product = products.find(item => String(item.id) === String(id));
-        if (!product || !currentUser || !currentUser.isAdmin) return;
-
-        document.getElementById("adminProductId").value = product.id;
-        document.getElementById("adminProductName").value = product.name;
-        document.getElementById("adminProductCategory").value = product.category;
-        document.getElementById("adminProductPrice").value = product.price;
-        document.getElementById("adminProductDiscount").value = Number(product.discount) || 0;
-        selectedProductImages = Array.isArray(product.images) && product.images.length > 0
-            ? [...product.images]
-            : product.image ? [product.image] : [];
-        selectedProductMainIndex = Math.min(Number(product.mainImageIndex) || 0, Math.max(selectedProductImages.length - 1, 0));
-        renderAdminImagePreviews();
-        document.getElementById("adminProductDescription").value = product.description;
-        document.getElementById("adminProductAvailability").value = getAvailability(product);
-        document.getElementById("adminSaveButton").textContent = "Uložiť zmeny";
-        document.getElementById("adminCancelButton").hidden = false;
-        document.getElementById("adminProductName").focus();
-    }
-
-    async function deleteAdminProduct(id) {
-        if (!currentUser || !currentUser.isAdmin) return;
-
-        const product = products.find(item => String(item.id) === String(id));
-        if (!product || !confirm(`Odstrániť produkt „${product.name}“?`)) return;
-
-        if (!/^[0-9a-f-]{36}$/i.test(String(product.id))) {
-            showToast("Produkt ešte nie je uložený v databáze.");
-            return;
-        }
-
-        try {
-            const token = await getSupabaseAdminToken();
-            await window.rovoltSupabase.deleteProduct(product.id, token);
-        } catch (error) {
-            showToast(error.message || "Produkt sa nepodarilo odstrániť z databázy.");
-            return;
-        }
-
-        products = products.filter(item => item.id !== id);
-        cart = cart.filter(item => item.id !== id);
-        saveProducts();
-        saveCart();
-        renderProducts();
-        updateCart();
-        renderAdminProducts();
-        resetAdminForm();
-        showToast("Produkt bol odstránený.");
-    }
-
-    document.getElementById("adminProductForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
-        if (!currentUser || !currentUser.isAdmin) return;
-
-        const productId = document.getElementById("adminProductId").value.trim();
-        const productData = {
-            name: document.getElementById("adminProductName").value.trim(),
-            category: document.getElementById("adminProductCategory").value,
-            price: Number(document.getElementById("adminProductPrice").value),
-            discount: Number(document.getElementById("adminProductDiscount").value) || 0,
-            images: [...selectedProductImages],
-            mainImageIndex: selectedProductImages.length > 0 ? selectedProductMainIndex : 0,
-            icon: "⚡",
-            description: document.getElementById("adminProductDescription").value.trim(),
-            availability: document.getElementById("adminProductAvailability").value
-        };
-
-        if (!productData.name || !productData.description || !Number.isFinite(productData.price) || productData.price < 0 || productData.discount < 0 || productData.discount > 100) {
-            showToast("Vyplňte názov, popis a platnú cenu.");
-            return;
-        }
-
-        try {
-            const token = await getSupabaseAdminToken();
-            await window.rovoltSupabase.saveProduct(productData, productId, selectedProductImages, selectedProductMainIndex, token);
-            const catalog = await window.rovoltSupabase.loadCatalog();
-            supabaseCategories = catalog.categories;
-            categories = catalog.categories.map(category => category.name);
-            products = catalog.products;
-            saveCategories();
-            saveProducts();
-            renderProducts();
-            renderAdminProducts();
-            resetAdminForm();
-            showToast(productId ? "Produkt bol upravený." : "Produkt bol pridaný.");
-        } catch (error) {
-            showToast(error.message || "Produkt sa nepodarilo uložiť do databázy.");
-        }
-    });
-
-
     /* =========================
        CART WINDOW
        ========================= */
@@ -2798,9 +2310,20 @@
 
     function goToCheckout() {
 
+        if (!products.length) {
+            alert("Produkty sa ešte nenačítali z Google tabuľky.");
+            return;
+        }
+
+        cart = cart.filter(item => products.some(product =>
+            String(product.id) === String(item.id) && isProductPurchasable(product)
+        ));
+        saveCart();
+        updateCart();
+
         if (cart.length === 0) {
 
-            alert("Košík je prázdny.");
+            alert(products.length ? "Košík je prázdny." : "Produkty sa ešte nenačítali z Google tabuľky.");
 
             return;
 
@@ -2833,58 +2356,6 @@
     }
 
 
-    /* =========================
-       UCET
-       ========================= */
-
-    let accountMode = "login";
-    const adminAccount = { email: "info@rovolt.sk" };
-    let currentUser = JSON.parse(localStorage.getItem("rovoltSession")) || null;
-
-    async function openAccount() {
-        if (currentUser) {
-            if (auth0ClientPromise) {
-                const client = await auth0ClientPromise;
-                if (!(await client.isAuthenticated())) {
-                    currentUser = null;
-                    localStorage.removeItem("rovoltSession");
-                    updateAccountButton();
-                }
-            }
-        }
-
-        if (currentUser) {
-            const shouldLogout = confirm(`Ste prihlásený ako ${currentUser.email}. Chcete sa odhlásiť?`);
-            if (shouldLogout) {
-                currentUser = null;
-                localStorage.removeItem("rovoltSession");
-                updateAccountButton();
-
-                if (auth0ClientPromise) {
-                    const client = await auth0ClientPromise;
-                    await client.logout({
-                        logoutParams: {
-                            returnTo: window.location.origin + window.location.pathname
-                        }
-                    });
-                    return;
-                }
-
-                showToast("Boli ste odhlásený.");
-            }
-            return;
-        }
-
-        document.getElementById("accountOverlay").classList.add("open");
-        document.getElementById("accountEmail").focus();
-    }
-
-    function closeAccount() {
-        document.getElementById("accountOverlay").classList.remove("open");
-        document.getElementById("accountMessage").style.display = "none";
-        document.getElementById("accountForm").reset();
-    }
-
     function openTerms() {
         document.getElementById("termsOverlay").classList.add("open");
     }
@@ -2900,184 +2371,7 @@
         button.textContent = isOpen ? "Skryť úplné VOP" : "Zobraziť úplné VOP";
     }
 
-    function toggleAccountMode() {
-        accountMode = accountMode === "login" ? "register" : "login";
-        const isRegistering = accountMode === "register";
-        document.getElementById("accountTitle").textContent = isRegistering ? "Registrácia" : "Prihlásenie";
-        document.getElementById("accountSubtitle").textContent = isRegistering ? "Vytvorte si ROVOLT účet." : "Prihláste sa do svojho ROVOLT účtu.";
-        document.getElementById("accountSubmit").textContent = isRegistering ? "Vytvoriť účet" : "Prihlásiť sa";
-        document.getElementById("forgotPasswordButton").hidden = isRegistering;
-        document.getElementById("accountSwitchText").innerHTML = isRegistering
-            ? 'Už máte účet? <button type="button" onclick="toggleAccountMode()">Prihlásiť sa</button>'
-            : 'Nemáte účet? <button type="button" onclick="toggleAccountMode()">Zaregistrovať sa</button>';
-        document.getElementById("accountPassword").setAttribute("autocomplete", isRegistering ? "new-password" : "current-password");
-    }
-
-    function updateAccountButton() {
-        document.getElementById("accountButton").textContent = currentUser ? `👤 ${currentUser.email}` : "👤 Prihlásenie";
-        document.getElementById("adminPanel").classList.toggle("open", Boolean(currentUser && currentUser.isAdmin));
-        renderAdminProducts();
-        renderAdminOrders();
-        renderCustomerOrders();
-    }
-
-    async function startSocialLogin(provider) {
-        if (!auth0ClientPromise) {
-            showToast("Auth0 OAuth zatiaľ nie je nakonfigurované.");
-            return;
-        }
-
-        try {
-            const client = await auth0ClientPromise;
-            await client.loginWithRedirect({
-                authorizationParams: {
-                    connection: provider === "Google" ? "google-oauth2" : "apple"
-                }
-            });
-        } catch (error) {
-            showToast(`Prihlásenie cez ${provider} sa nepodarilo.`);
-        }
-    }
-
-    async function startAuth0Login(emailHint = "") {
-        if (!auth0ClientPromise) {
-            showToast("Auth0 OAuth zatiaľ nie je nakonfigurované.");
-            return;
-        }
-
-        try {
-            const client = await auth0ClientPromise;
-            await client.loginWithRedirect({
-                authorizationParams: {
-                    connection: auth0Config.databaseConnection,
-                    ...(emailHint ? { login_hint: emailHint } : {})
-                }
-            });
-        } catch (error) {
-            showToast("Prihlásenie cez Auth0 sa nepodarilo spustiť.");
-        }
-    }
-
-    async function requestPasswordReset() {
-        const emailInput = document.getElementById("accountEmail");
-        const message = document.getElementById("accountMessage");
-        const email = emailInput.value.trim().toLowerCase();
-
-        if (!emailInput.validity.valid || !email) {
-            message.textContent = "Najprv zadajte platnú e-mailovú adresu.";
-            message.style.display = "block";
-            message.style.background = "#fef2f2";
-            message.style.borderColor = "#fecaca";
-            message.style.color = "#991b1b";
-            emailInput.focus();
-            return;
-        }
-
-        const button = document.getElementById("forgotPasswordButton");
-        button.disabled = true;
-        try {
-            const response = await fetch(`https://${auth0Config.domain}/dbconnections/change_password`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    client_id: auth0Config.clientId,
-                    email,
-                    connection: auth0Config.databaseConnection
-                })
-            });
-            if (!response.ok) throw new Error("Auth0 reset request failed.");
-
-            message.textContent = "Ak účet existuje, Auth0 odošle pokyny na obnovenie hesla. Skontrolujte aj priečinok Spam.";
-            message.style.display = "block";
-            message.style.background = "#ecfdf5";
-            message.style.borderColor = "#a7f3d0";
-            message.style.color = "#065f46";
-        } catch (error) {
-            message.textContent = "Obnovu sa nepodarilo spustiť. Overte, že Auth0 Database Connection je aktívna.";
-            message.style.display = "block";
-            message.style.background = "#fef2f2";
-            message.style.borderColor = "#fecaca";
-            message.style.color = "#991b1b";
-        } finally {
-            button.disabled = false;
-        }
-    }
-
-    async function restoreAuth0Session() {
-        if (!auth0ClientPromise) return;
-
-        try {
-            const client = await auth0ClientPromise;
-            if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-                await client.handleRedirectCallback();
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-
-            if (!(await client.isAuthenticated())) return;
-
-            const [user, claims] = await Promise.all([client.getUser(), client.getIdTokenClaims()]);
-            if (!user?.email) return;
-
-            const isAdmin = claims?.email?.toLowerCase() === adminAccount.email
-                && claims?.email_verified === true;
-            currentUser = { email: user.email, isAdmin };
-            localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
-            updateAccountButton();
-            if (user.email.toLowerCase() === adminAccount.email && !isAdmin) {
-                showToast("Auth0 admin oprávnenie chýba. Nasadiť Post Login Action a prihlásiť sa znova.");
-            }
-            await loadSupabaseCatalog(true);
-        } catch (error) {
-            showToast("Auth0 prihlásenie sa nepodarilo obnoviť.");
-        }
-    }
-
-    document.getElementById("accountForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const email = document.getElementById("accountEmail").value.trim().toLowerCase();
-        const password = document.getElementById("accountPassword").value;
-        const message = document.getElementById("accountMessage");
-        const savedUser = JSON.parse(localStorage.getItem("rovoltUser"));
-
-        if (accountMode === "login" && email === adminAccount.email) {
-            startAuth0Login(email);
-            return;
-        }
-
-        if (accountMode === "register") {
-            if (email === adminAccount.email) {
-                message.textContent = "Tento e-mail je vyhradený pre administrátora.";
-                message.style.display = "block";
-                return;
-            }
-
-            localStorage.setItem("rovoltUser", JSON.stringify({ email, password }));
-            currentUser = { email };
-            localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
-            closeAccount();
-            updateAccountButton();
-            showToast("Účet bol vytvorený.");
-            return;
-        }
-
-        const isSavedUser = savedUser && savedUser.email === email && savedUser.password === password;
-
-        if (!isSavedUser) {
-            message.textContent = "Nesprávny e-mail alebo heslo.";
-            message.style.display = "block";
-            return;
-        }
-
-        currentUser = { email, isAdmin: false };
-        localStorage.setItem("rovoltSession", JSON.stringify(currentUser));
-        closeAccount();
-        updateAccountButton();
-        showToast("Úspešne ste sa prihlásili.");
-    });
-
     document.addEventListener("keydown", event => {
-        if (event.key === "Escape") closeAccount();
         if (event.key === "Escape") closeTerms();
     });
 
@@ -3100,35 +2394,13 @@
 
             let orderText = "";
             let total = 0;
-            const orderItems = [];
 
             cart.forEach(item => {
                 const product = products.find(p => p.id === item.id);
                 const itemTotal = getDiscountedPrice(product) * item.quantity;
                 total += itemTotal;
-                orderItems.push({
-                    name: product.name,
-                    quantity: item.quantity,
-                    price: getDiscountedPrice(product)
-                });
                 orderText += `${product.name} – ${item.quantity} ks – ${formatPrice(itemTotal)}\n`;
             });
-
-            const customerEmail = currentUser && !currentUser.isAdmin
-                ? currentUser.email
-                : new FormData(this).get("email");
-            const newOrder = {
-                id: `RV-${Date.now()}`,
-                customerEmail,
-                createdAt: new Date().toISOString(),
-                total,
-                items: orderItems,
-                status: "Prijatá"
-            };
-            orders.push(newOrder);
-            saveOrders();
-            renderAdminOrders();
-            renderCustomerOrders();
 
             document.getElementById("orderSummary").value = `Objednávka z ROVOLT E-shopu:\n\n${orderText}\nCelkom: ${formatPrice(total)}`;
             document.getElementById("orderTotal").value = formatPrice(total);
@@ -3151,9 +2423,7 @@
     renderCategories();
 
     updateCart();
-    updateAccountButton();
-    restoreAuth0Session();
-    loadSupabaseCatalog();
+    loadGoogleSheetCatalog();
 
 </script>
 

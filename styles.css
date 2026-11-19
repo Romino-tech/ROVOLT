@@ -138,6 +138,13 @@ body {
     margin-bottom: 18px;
 }
 
+.installation-cta {
+    min-width: 250px;
+    padding: 15px 24px;
+    font-size: 1.05rem;
+    box-shadow: 0 10px 28px rgba(249, 115, 22, 0.28);
+}
+
 .hero-meta {
     display: flex;
     flex-wrap: wrap;
@@ -720,6 +727,222 @@ button:hover,
     color: #9ca3af;
 }
 
+.configurator-section {
+    scroll-margin-top: 90px;
+    padding: 28px;
+    border-color: rgba(242, 140, 0, 0.3);
+    background:
+        radial-gradient(circle at 95% 0%, rgba(249, 115, 22, 0.12), transparent 28%),
+        linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.94));
+}
+
+.configurator-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.configurator-heading p {
+    max-width: 670px;
+    margin: 0;
+    color: #cbd5e1;
+}
+
+.configurator-badge {
+    flex: 0 0 auto;
+    border: 1px solid rgba(125, 211, 252, 0.28);
+    border-radius: 999px;
+    padding: 8px 12px;
+    color: #bae6fd;
+    background: rgba(56, 189, 248, 0.08);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.installation-form {
+    display: grid;
+    gap: 16px;
+}
+
+.form-block {
+    padding: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.68);
+}
+
+.form-block-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 18px;
+}
+
+.form-block-heading > span {
+    min-width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    color: #fdba74;
+    background: rgba(249, 115, 22, 0.12);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.form-block-heading h3 {
+    margin: 0 0 3px;
+    color: #f8fafc;
+}
+
+.form-block-heading p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.form-field {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+}
+
+.form-field-full {
+    grid-column: 1 / -1;
+}
+
+.form-field label,
+.installation-form legend {
+    color: #e2e8f0;
+    font-weight: 700;
+}
+
+.form-field label span,
+.installation-form legend span {
+    color: #fb923c;
+}
+
+.installation-form input,
+.installation-form textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 9px;
+    background: #0b1220;
+    color: #f8fafc;
+    font: inherit;
+}
+
+.installation-form input:focus,
+.installation-form textarea:focus {
+    outline: 2px solid rgba(56, 189, 248, 0.55);
+    outline-offset: 2px;
+    border-color: #7dd3fc;
+}
+
+.installation-form input[type="file"] {
+    padding: 9px;
+    color: #cbd5e1;
+}
+
+.installation-form input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 7px 10px;
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    border-radius: 7px;
+    background: rgba(56, 189, 248, 0.12);
+    color: #e0f2fe;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.form-field small {
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.installation-form fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.installation-form legend {
+    margin-bottom: 10px;
+}
+
+.choice-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 46px;
+    margin: 0 7px 8px 0;
+    padding: 10px 13px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.6);
+    color: #dbeafe;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.choice-card:has(input:checked) {
+    border-color: rgba(249, 115, 22, 0.8);
+    background: rgba(249, 115, 22, 0.12);
+}
+
+.choice-card input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--brand-orange);
+}
+
+.service-choices {
+    margin-bottom: 18px !important;
+}
+
+.project-size-grid {
+    padding-top: 18px;
+    border-top: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.form-submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-submit-row .form-note {
+    max-width: 560px;
+    margin: 0;
+}
+
+.installation-submit {
+    flex: 0 0 auto;
+    min-width: 210px;
+    padding: 14px 24px;
+    font-size: 1rem;
+}
+
 .message-result {
     margin-top: 12px;
     padding: 14px 18px;
@@ -730,6 +953,43 @@ button:hover,
 }
 
 @media (max-width: 720px) {
+    .installation-cta {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .configurator-section {
+        padding: 20px 14px;
+    }
+
+    .configurator-heading,
+    .form-submit-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .configurator-badge {
+        align-self: flex-start;
+    }
+
+    .form-grid,
+    .choice-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-block {
+        padding: 16px 13px;
+    }
+
+    .choice-card {
+        display: flex;
+        margin-right: 0;
+    }
+
+    .installation-submit {
+        width: 100%;
+    }
+
     .gallery-grid {
         grid-template-columns: minmax(0, 1fr);
     }

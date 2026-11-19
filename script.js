@@ -42,6 +42,74 @@ if (menuDetails && navMenu) {
 
 const contactForm = document.getElementById("contactForm");
 const messageResult = document.getElementById("messageResult");
+const installationForm = document.getElementById("installationForm");
+const installationResult = document.getElementById("installationResult");
+
+const showFormResult = (element, message, isError = false) => {
+    if (!element) {
+        return;
+    }
+
+    element.hidden = false;
+    element.style.display = "block";
+    element.textContent = message;
+    element.style.background = isError
+        ? "rgba(248, 113, 113, 0.2)"
+        : "rgba(34, 197, 94, 0.15)";
+    element.style.borderColor = isError
+        ? "rgba(248, 113, 113, 0.4)"
+        : "rgba(34, 197, 94, 0.3)";
+};
+
+if (installationForm) {
+    installationForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const submitButton = installationForm.querySelector('button[type="submit"]');
+        const selectedService = installationForm.querySelector('input[name="Rozsah[]"]:checked');
+
+        if (!selectedService) {
+            showFormResult(installationResult, "Vyberte prosím aspoň jedno požadované riešenie.", true);
+            return;
+        }
+
+        if (!installationForm.reportValidity()) {
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Odosielam...";
+
+        try {
+            const response = await fetch(installationForm.action, {
+                method: "POST",
+                body: new FormData(installationForm),
+                headers: {
+                    Accept: "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Požiadavku sa nepodarilo odoslať.");
+            }
+
+            showFormResult(
+                installationResult,
+                "Požiadavka bola úspešne odoslaná. Čoskoro vás budeme kontaktovať s ďalšími krokmi."
+            );
+            installationForm.reset();
+        } catch (error) {
+            showFormResult(
+                installationResult,
+                "Požiadavku sa nepodarilo odoslať. Skúste to prosím znovu alebo nás kontaktujte na info@rovolt.sk.",
+                true
+            );
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = "Odoslať požiadavku";
+        }
+    });
+}
 
 if (contactForm) {
     contactForm.addEventListener("submit", async (event) => {

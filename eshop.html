@@ -165,6 +165,51 @@
             line-height: 1.5;
         }
 
+        .remember-email-form {
+            display: grid;
+            gap: 12px;
+            padding: 16px 18px 22px;
+        }
+
+        .remember-email-form label {
+            color: #0f172a;
+            font-weight: bold;
+        }
+
+        .remember-email-form input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+
+        .remember-email-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .remember-email-actions button {
+            padding: 10px 13px;
+            border: 0;
+            border-radius: 7px;
+            background: var(--orange);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .remember-email-actions button[type="button"] {
+            background: #475569;
+        }
+
+        .remember-email-status {
+            min-height: 1.3em;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
         .logo {
             display: inline-flex;
             align-items: center;
@@ -1472,11 +1517,19 @@
 <div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authDialogTitle" onclick="if (event.target === this) closeAuth()">
     <section class="auth-dialog">
         <div class="auth-dialog-header">
-            <h2 id="authDialogTitle">ROVOLT účet</h2>
+            <h2 id="authDialogTitle">Zapamätanie e-mailu</h2>
             <button class="account-close" type="button" onclick="closeAuth()" aria-label="Zavrieť prihlásenie">×</button>
         </div>
-        <p class="auth-setup-note" id="authSetupNote" hidden></p>
-        <iframe class="auth-dialog-frame" id="googleAuthFrame" title="Prihlásenie do ROVOLT účtu" hidden></iframe>
+        <form class="remember-email-form" id="rememberEmailForm">
+            <label for="rememberedEmail">E-mail pre objednávky</label>
+            <input id="rememberedEmail" name="email" type="email" autocomplete="email" required>
+            <p class="auth-setup-note">E-mail sa uloží iba v tomto prehliadači a predvyplní sa v objednávke. Toto nie je prihlásenie do zákazníckeho účtu; heslo sa neukladá.</p>
+            <div class="remember-email-actions">
+                <button type="submit">Zapamätať e-mail</button>
+                <button type="button" id="forgetRememberedEmail">Zabudnúť e-mail</button>
+            </div>
+            <p class="remember-email-status" id="rememberEmailStatus" role="status" aria-live="polite"></p>
+        </form>
     </section>
 </div>
 
@@ -1725,6 +1778,9 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+    window.ROVOLT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl0B7cJxNEi7v9j63K8dEcjADML6Ga6mxx8MgWRGaCK2oH4LiydjI1KHlwHyg3NIawz0i-et0h6s_8/pub?output=csv";
+</script>
 <script src="google-sheets-catalog.js"></script>
 <script src="google-sheets-auth.js"></script>
 <script>

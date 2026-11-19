@@ -35,6 +35,7 @@
       <h1>ROVOLT Elektroinštalácie</h1>
       <p>Profesionálne riešenia pre domy, kancelárie i priemyselné objekty. Naše dlhoročné skúsenosti v elektrotechnike spájame s precíznosťou, bezpečnosťou a kvalitným prevedením každého projektu.</p>
       <div class="hero-actions">
+        <a class="button-link installation-cta" href="#konfigurator">Chcem elektroinštaláciu</a>
         <button type="button" id="contactButton">Kontaktujte nás</button>
         <a class="button-link" href="../eshop.html">Prejsť do e-shopu</a>
         <a class="button-link secondary" href="realizacie.html">Pozrieť realizácie</a>
@@ -77,6 +78,165 @@
         <span class="feature-number">04</span>
         <h3>Spokojnosť zákazníka</h3>
       </div>
+    </section>
+
+    <section class="section configurator-section" id="konfigurator">
+      <div class="configurator-heading">
+        <div>
+          <span class="eyebrow">Nezáväzná cenová požiadavka</span>
+          <h2>Požiadavka na nacenenie elektroinštalácie</h2>
+          <p>Vyplňte základné údaje o vašom projekte. Ozveme sa vám a pripravíme riešenie presne podľa vašich potrieb.</p>
+        </div>
+        <span class="configurator-badge">Vyplnenie ≈ 2 minúty</span>
+      </div>
+
+      <form id="installationForm" class="installation-form" action="https://formsubmit.co/info@rovolt.sk" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="Požiadavka na nacenenie elektroinštalácie z webu ROVOLT">
+
+        <div class="form-block">
+          <div class="form-block-heading">
+            <span>01</span>
+            <div>
+              <h3>Kontaktné údaje</h3>
+              <p>Kam vám môžeme poslať odpoveď a cenový návrh?</p>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="installationName">Meno a priezvisko <span aria-hidden="true">*</span></label>
+              <input type="text" id="installationName" name="Meno a priezvisko" autocomplete="name" required>
+            </div>
+            <div class="form-field">
+              <label for="installationLocation">Lokalita realizácie <span aria-hidden="true">*</span></label>
+              <input type="text" id="installationLocation" name="Lokalita realizácie" autocomplete="address-level2" placeholder="Mesto alebo obec" required>
+            </div>
+            <div class="form-field">
+              <label for="installationPhone">Telefónne číslo <span aria-hidden="true">*</span></label>
+              <input type="tel" id="installationPhone" name="Telefón" autocomplete="tel" required>
+            </div>
+            <div class="form-field">
+              <label for="installationEmail">E-mail <span aria-hidden="true">*</span></label>
+              <input type="email" id="installationEmail" name="Email" autocomplete="email" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <div class="form-block-heading">
+            <span>02</span>
+            <div>
+              <h3>Typ projektu</h3>
+              <p>Vyberte charakter stavby a priestor, v ktorom budeme realizovať elektroinštaláciu.</p>
+            </div>
+          </div>
+          <div class="choice-grid">
+            <fieldset>
+              <legend>Ide o <span aria-hidden="true">*</span></legend>
+              <label class="choice-card">
+                <input type="radio" name="Typ projektu" value="Rekonštrukcia" required>
+                <span>Rekonštrukcia</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="Typ projektu" value="Novostavba">
+                <span>Novostavba</span>
+              </label>
+            </fieldset>
+            <fieldset>
+              <legend>Typ priestoru <span aria-hidden="true">*</span></legend>
+              <label class="choice-card">
+                <input type="radio" name="Typ priestoru" value="Dom" required>
+                <span>Dom</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="Typ priestoru" value="Byt">
+                <span>Byt</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="Typ priestoru" value="Komerčný priestor">
+                <span>Komerčný priestor</span>
+              </label>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <div class="form-block-heading">
+            <span>03</span>
+            <div>
+              <h3>Rozsah realizácie</h3>
+              <p>Môžete označiť aj viac služieb naraz.</p>
+            </div>
+          </div>
+          <fieldset class="service-choices">
+            <legend>Požadované riešenie</legend>
+            <label class="choice-card">
+              <input type="checkbox" name="Rozsah[]" value="Jednoduchá elektroinštalácia">
+              <span>Jednoduchá elektroinštalácia</span>
+            </label>
+            <label class="choice-card">
+              <input type="checkbox" name="Rozsah[]" value="Smart systém">
+              <span>Smart systém</span>
+            </label>
+            <label class="choice-card">
+              <input type="checkbox" name="Rozsah[]" value="Fotovoltika">
+              <span>Fotovoltika</span>
+            </label>
+            <label class="choice-card">
+              <input type="checkbox" name="Rozsah[]" value="Tepelné čerpadlo">
+              <span>Tepelné čerpadlo</span>
+            </label>
+            <label class="choice-card">
+              <input type="checkbox" name="Rozsah[]" value="Iné riešenie">
+              <span>Iné</span>
+            </label>
+          </fieldset>
+
+          <div class="form-grid project-size-grid">
+            <div class="form-field">
+              <label for="installationArea">Rozloha elektroinštalácie (m²) <span aria-hidden="true">*</span></label>
+              <input type="number" id="installationArea" name="Rozloha elektroinštalácie" min="1" step="1" inputmode="numeric" placeholder="Napr. 150" required>
+            </div>
+            <div class="form-field">
+              <label for="installationRooms">Počet izieb <span aria-hidden="true">*</span></label>
+              <input type="number" id="installationRooms" name="Počet izieb" min="0" step="1" inputmode="numeric" placeholder="Napr. 5" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <div class="form-block-heading">
+            <span>04</span>
+            <div>
+              <h3>Prílohy a poznámka</h3>
+              <p>Priložte dostupné podklady, alebo nám doplňte dôležité detaily.</p>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="installationPhotos">Fotodokumentácia</label>
+              <input type="file" id="installationPhotos" name="Fotodokumentácia" accept="image/*,.pdf" multiple>
+              <small>Fotografie priestoru alebo existujúcej elektroinštalácie. Môžete vybrať viac súborov.</small>
+            </div>
+            <div class="form-field">
+              <label for="installationProject">Projekt alebo pôdorys</label>
+              <input type="file" id="installationProject" name="Projekt alebo pôdorys" accept=".pdf,.dwg,.dxf,image/*">
+              <small>PDF, DWG, DXF alebo obrázok.</small>
+            </div>
+            <div class="form-field form-field-full">
+              <label for="installationNote">Poznámka</label>
+              <textarea id="installationNote" name="Poznámka" rows="5" placeholder="Uveďte požiadavku na iné riešenie, termín realizácie alebo ďalšie podrobnosti."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-submit-row">
+          <p class="form-note">Odoslaním formulára súhlasíte so spracovaním uvedených údajov za účelom prípravy cenovej ponuky.</p>
+          <button class="installation-submit" type="submit">Odoslať požiadavku</button>
+        </div>
+        <div id="installationResult" class="message-result" role="status" aria-live="polite" hidden></div>
+      </form>
     </section>
 
     <section class="section">

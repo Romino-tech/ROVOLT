@@ -1,5 +1,6 @@
 (function() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl0B7cJxNEi7v9j63K8dEcjADML6Ga6mxx8MgWRGaCK2oH4LiydjI1KHlwHyg3NIawz0i-et0h6s_8/pub?output=csv";
+    const defaultSheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl0B7cJxNEi7v9j63K8dEcjADML6Ga6mxx8MgWRGaCK2oH4LiydjI1KHlwHyg3NIawz0i-et0h6s_8/pub?output=csv";
+    const sheetUrl = (window.ROVOLT_GOOGLE_SHEET_URL || window.GOOGLE_SHEET_CATALOG_URL || defaultSheetUrl || "").trim();
 
     function parseCsv(csv) {
         const rows = [];
@@ -68,14 +69,15 @@
         }
     }
 
-    function mapProduct(row) {
+    function mapProduct(row, index) {
         const stock = normalizeText(row["Sklad"]);
         const numericStock = Number(stock.replace(",", "."));
         const availability = Number.isFinite(numericStock) && stock !== ""
             ? numericStock > 0 ? "stock" : "unavailable"
             : stock.includes("objednav") ? "order" : "unavailable";
         const image = getImageUrl(row["Obrázok URL"]);
-        const stableId = normalizeText(`${row["Kategória"]}-${row["Názov produktu"]}`)
+        const rawId = String(row["ID"] || "").trim();
+        const stableId = normalizeText(`${rawId || "row"}-${row["Kategória"]}-${row["Názov produktu"]}-${index + 1}`)
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/^-|-$/g, "");
 
@@ -94,6 +96,10 @@
     }
 
     async function loadProducts() {
+        if (!sheetUrl) {
+            throw new Error("Nie je nastavený odkaz na Google tabuľku.");
+        }
+
         const response = await fetch(sheetUrl, { cache: "no-store" });
         if (!response.ok) {
             throw new Error(`Google tabuľku sa nepodarilo načítať (${response.status}).`);
@@ -104,7 +110,7 @@
 
         const headers = rows[0].map(value => value.trim().replace(/^\uFEFF/, ""));
         const products = rows.slice(1)
-            .map(values => Object.fromEntries(
+            .map((values, index) => Object.fromEntries(
                 headers.map((header, column) => [header, (values[column] || "").trim()])
             ))
             .filter(row =>
@@ -113,14 +119,14 @@
                 && row["Kategória"]
                 && row["Popis"]
             )
-            .map(mapProduct);
+            .map((row, index) => mapProduct(row, index));
 
         if (!products.length) throw new Error("V Google tabuľke nie sú označené aktívne produkty.");
-        if (new Set(products.map(product => product.id)).size !== products.length) {
-            throw new Error("Google tabuľka obsahuje produkty s rovnakým názvom v rovnakej kategórii.");
-        }
         return products;
     }
 
-    window.rovoltGoogleSheet = { loadProducts };
+    window.rovoltGoogleSheet = {
+        loadProducts,
+        getSheetUrl: () => sheetUrl
+    };
 })();

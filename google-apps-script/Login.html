@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            font-family: Arial, sans-serif;
+            color: #0f172a;
+            background: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 12px;
+        }
+
+        form,
+        #signedIn {
+            display: grid;
+            gap: 12px;
+        }
+
+        h1 {
+            margin: 0 0 4px;
+            font-size: 22px;
+        }
+
+        p {
+            margin: 0;
+            color: #64748b;
+            line-height: 1.45;
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font: inherit;
+        }
+
+        button {
+            padding: 12px;
+            border: 0;
+            border-radius: 7px;
+            background: #e77d00;
+            color: white;
+            cursor: pointer;
+            font: inherit;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            cursor: wait;
+            opacity: .65;
+        }
+
+        #switchMode,
+        #logout {
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            color: #0f172a;
+        }
+
+        #message {
+            display: none;
+            padding: 10px;
+            border-radius: 7px;
+            background: #fef2f2;
+            color: #991b1b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <main id="authForm">
+        <div>
+            <h1 id="title">Prihlásenie</h1>
+            <p id="subtitle">Prihláste sa do svojho ROVOLT účtu.</p>
+        </div>
+        <form id="form">
+            <label for="email">E-mail
+                <input id="email" type="email" autocomplete="email" required>
+            </label>
+            <label for="password">Heslo
+                <input id="password" type="password" autocomplete="current-password" minlength="8" maxlength="256" required>
+            </label>
+            <p id="message" role="alert"></p>
+            <button id="submit" type="submit">Prihlásiť sa</button>
+        </form>
+        <button id="switchMode" type="button">Nemáte účet? Zaregistrovať sa</button>
+    </main>
+
+    <main id="signedIn" hidden>
+        <div>
+            <h1>Ste prihlásený</h1>
+            <p id="profile"></p>
+        </div>
+        <button id="logout" type="button">Odhlásiť sa</button>
+    </main>
+
+    <script>
+        const SESSION_KEY = "rovoltGoogleSheetSession";
+        const form = document.getElementById("form");
+        const message = document.getElementById("message");
+        let registering = false;
+        let sessionToken = sessionStorage.getItem(SESSION_KEY);
+
+        function sendToShop(event, profile) {
+            window.parent.postMessage({
+                source: "rovolt-google-auth",
+                event,
+                profile: profile || null
+            }, "*");
+        }
+
+        function showMessage(text) {
+            message.textContent = text;
+            message.style.display = "block";
+        }
+
+        function showSignedIn(profile) {
+            document.getElementById("authForm").hidden = true;
+            document.getElementById("signedIn").hidden = false;
+            document.getElementById("profile").textContent =
+                `${profile.email}${profile.role === "admin" ? " · administrátor" : ""}`;
+            sendToShop("authenticated", profile);
+        }
+
+        function finishAuthentication(result) {
+            sessionToken = result.token;
+            sessionStorage.setItem(SESSION_KEY, sessionToken);
+            showSignedIn(result.profile);
+        }
+
+        document.getElementById("switchMode").addEventListener("click", () => {
+            registering = !registering;
+            message.style.display = "none";
+            document.getElementById("title").textContent = registering ? "Registrácia" : "Prihlásenie";
+            document.getElementById("subtitle").textContent = registering
+                ? "Vytvorte si ROVOLT účet."
+                : "Prihláste sa do svojho ROVOLT účtu.";
+            document.getElementById("password").autocomplete = registering ? "new-password" : "current-password";
+            document.getElementById("submit").textContent = registering ? "Vytvoriť účet" : "Prihlásiť sa";
+            document.getElementById("switchMode").textContent = registering
+                ? "Už máte účet? Prihlásiť sa"
+                : "Nemáte účet? Zaregistrovať sa";
+        });
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+            message.style.display = "none";
+            const submit = document.getElementById("submit");
+            submit.disabled = true;
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const passwordInput = document.getElementById("password");
+            const password = passwordInput.value;
+            passwordInput.value = "";
+            const onSuccess = result => {
+                submit.disabled = false;
+                finishAuthentication(result);
+            };
+            const onFailure = error => {
+                submit.disabled = false;
+                showMessage(error.message || "Prihlásenie sa nepodarilo.");
+            };
+            const runner = google.script.run
+                .withSuccessHandler(onSuccess)
+                .withFailureHandler(onFailure);
+            if (registering) runner.register(email, password);
+            else runner.login(email, password);
+        });
+
+        document.getElementById("logout").addEventListener("click", () => {
+            const token = sessionToken;
+            sessionStorage.removeItem(SESSION_KEY);
+            sessionToken = null;
+            google.script.run
+                .withSuccessHandler(() => {
+                    document.getElementById("signedIn").hidden = true;
+                    document.getElementById("authForm").hidden = false;
+                    document.getElementById("password").value = "";
+                    sendToShop("signed-out");
+                })
+                .withFailureHandler(error => showMessage(error.message || "Odhlásenie sa nepodarilo."))
+                .logout(token);
+        });
+
+        if (sessionToken) {
+            google.script.run
+                .withSuccessHandler(profile => {
+                    if (profile) showSignedIn(profile);
+                    else sessionStorage.removeItem(SESSION_KEY);
+                })
+                .withFailureHandler(() => sessionStorage.removeItem(SESSION_KEY))
+                .getSession(sessionToken);
+        }
+    </script>
+</body>
+</html>

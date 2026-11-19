@@ -1,6 +1,5 @@
 (function() {
-    const defaultSheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl0B7cJxNEi7v9j63K8dEcjADML6Ga6mxx8MgWRGaCK2oH4LiydjI1KHlwHyg3NIawz0i-et0h6s_8/pub?output=csv";
-    const sheetUrl = (window.ROVOLT_GOOGLE_SHEET_URL || window.GOOGLE_SHEET_CATALOG_URL || defaultSheetUrl || "").trim();
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl0B7cJxNEi7v9j63K8dEcjADML6Ga6mxx8MgWRGaCK2oH4LiydjI1KHlwHyg3NIawz0i-et0h6s_8/pub?output=csv";
 
     function parseCsv(csv) {
         const rows = [];
@@ -95,10 +94,6 @@
     }
 
     async function loadProducts() {
-        if (!sheetUrl) {
-            throw new Error("Nie je nastavený odkaz na Google tabuľku.");
-        }
-
         const response = await fetch(sheetUrl, { cache: "no-store" });
         if (!response.ok) {
             throw new Error(`Google tabuľku sa nepodarilo načítať (${response.status}).`);
@@ -127,8 +122,5 @@
         return products;
     }
 
-    window.rovoltGoogleSheet = {
-        loadProducts,
-        getSheetUrl: () => sheetUrl
-    };
+    window.rovoltGoogleSheet = { loadProducts };
 })();

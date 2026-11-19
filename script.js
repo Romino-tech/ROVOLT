@@ -42,8 +42,33 @@ if (menuDetails && navMenu) {
 
 const contactForm = document.getElementById("contactForm");
 const messageResult = document.getElementById("messageResult");
+const installationButton = document.getElementById("installationButton");
+const installationDialog = document.getElementById("installationDialog");
+const installationDialogClose = document.getElementById("installationDialogClose");
 const installationForm = document.getElementById("installationForm");
 const installationResult = document.getElementById("installationResult");
+
+if (installationButton && installationDialog) {
+    installationButton.addEventListener("click", () => {
+        if (!installationDialog.open) {
+            installationDialog.showModal();
+        }
+    });
+
+    installationDialogClose.addEventListener("click", () => {
+        installationDialog.close();
+    });
+
+    installationDialog.addEventListener("click", (event) => {
+        if (event.target === installationDialog) {
+            installationDialog.close();
+        }
+    });
+
+    installationDialog.addEventListener("close", () => {
+        installationButton.focus();
+    });
+}
 
 const showFormResult = (element, message, isError = false) => {
     if (!element) {

@@ -728,7 +728,7 @@ button:hover,
 }
 
 .configurator-section {
-    scroll-margin-top: 90px;
+    position: relative;
     padding: 28px;
     border-color: rgba(242, 140, 0, 0.3);
     background:
@@ -736,11 +736,55 @@ button:hover,
         linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.94));
 }
 
+.installation-dialog {
+    width: min(960px, calc(100% - 32px));
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(242, 140, 0, 0.42);
+    border-radius: 18px;
+    background: #111827;
+    color: #e2e8f0;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6);
+}
+
+.installation-dialog::backdrop {
+    background: rgba(2, 6, 23, 0.82);
+    backdrop-filter: blur(5px);
+}
+
+body:has(.installation-dialog[open]) {
+    overflow: hidden;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 50%;
+    background: #0b1220;
+    color: #f8fafc;
+    font-size: 1.7rem;
+    line-height: 1;
+}
+
+.dialog-close:hover {
+    background: #1e293b;
+}
+
 .configurator-heading {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 24px;
+    padding-right: 42px;
     margin-bottom: 24px;
 }
 
@@ -960,6 +1004,21 @@ button:hover,
 
     .configurator-section {
         padding: 20px 14px;
+    }
+
+    .installation-dialog {
+        width: calc(100% - 16px);
+        max-height: calc(100dvh - 16px);
+        border-radius: 14px;
+    }
+
+    .dialog-close {
+        top: 10px;
+        right: 10px;
+    }
+
+    .configurator-heading {
+        padding-right: 42px;
     }
 
     .configurator-heading,

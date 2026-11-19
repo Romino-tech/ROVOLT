@@ -35,7 +35,7 @@
       <h1>ROVOLT Elektroinštalácie</h1>
       <p>Profesionálne riešenia pre domy, kancelárie i priemyselné objekty. Naše dlhoročné skúsenosti v elektrotechnike spájame s precíznosťou, bezpečnosťou a kvalitným prevedením každého projektu.</p>
       <div class="hero-actions">
-        <a class="button-link installation-cta" href="#konfigurator">Chcem elektroinštaláciu</a>
+        <button class="installation-cta" type="button" id="installationButton" aria-haspopup="dialog" aria-controls="installationDialog">Chcem elektroinštaláciu</button>
         <button type="button" id="contactButton">Kontaktujte nás</button>
         <a class="button-link" href="../eshop.html">Prejsť do e-shopu</a>
         <a class="button-link secondary" href="realizacie.html">Pozrieť realizácie</a>
@@ -80,11 +80,13 @@
       </div>
     </section>
 
-    <section class="section configurator-section" id="konfigurator">
+    <dialog class="installation-dialog" id="installationDialog" aria-labelledby="installationDialogTitle">
+      <div class="configurator-section">
+      <button class="dialog-close" id="installationDialogClose" type="button" aria-label="Zavrieť formulár">×</button>
       <div class="configurator-heading">
         <div>
           <span class="eyebrow">Nezáväzná cenová požiadavka</span>
-          <h2>Požiadavka na nacenenie elektroinštalácie</h2>
+          <h2 id="installationDialogTitle">Požiadavka na nacenenie elektroinštalácie</h2>
           <p>Vyplňte základné údaje o vašom projekte. Ozveme sa vám a pripravíme riešenie presne podľa vašich potrieb.</p>
         </div>
         <span class="configurator-badge">Vyplnenie ≈ 2 minúty</span>
@@ -237,7 +239,8 @@
         </div>
         <div id="installationResult" class="message-result" role="status" aria-live="polite" hidden></div>
       </form>
-    </section>
+      </div>
+    </dialog>
 
     <section class="section">
       <div class="section-header">
